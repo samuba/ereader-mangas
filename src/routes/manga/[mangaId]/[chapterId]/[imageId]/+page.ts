@@ -1,19 +1,17 @@
 import type { PageLoad } from './$types';
-import cheerio from 'cheerio';
+import { load as cheerioLoad } from 'cheerio';
 
 export const csr = false; // cuz otherwise images break?
 
 export const load = (async ({ params }) => {
 	const { mangaId, chapterId, imageId } = params;
 	const imageNumber = Number(imageId);
-
 	console.log({ mangaId, chapterId, imageId });
 
-	// Fetch HTML of the page we want to scrape
 	const data = await fetch(`https://chapmanganato.com/${mangaId}/${chapterId}`, {
 		mode: 'no-cors'
 	});
-	const $ = cheerio.load(await data.text());
+	const $ = cheerioLoad(await data.text());
 	const imgUrls = $('.container-chapter-reader img')
 		.map(function () {
 			return $(this).attr('src');

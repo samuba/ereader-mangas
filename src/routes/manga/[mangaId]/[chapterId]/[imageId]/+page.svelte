@@ -1,5 +1,4 @@
 <script lang="ts">
-	import cheerio from 'cheerio';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -10,5 +9,5 @@
 </a>
 <center style="display: flex; justify-content: center; ">
 	<a href="/" style="padding-right:1rem;">Home</a>
-	<a href="/">Overview</a>
+	<a href={`/manga/${data.mangaId}`}>Overview</a>
 </center>

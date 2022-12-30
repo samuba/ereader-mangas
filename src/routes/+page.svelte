@@ -26,12 +26,15 @@
 	}
 </script>
 
-<h1>ereader-mangas</h1>
+<main class="container">
+	<br />
+	<h1>ereader-mangas</h1>
 
-<form on:submit|preventDefault={search}>
-	<input type="search" bind:value={searchTerm} />
+	<!-- <form on:submit|preventDefault={search}>
+		<input type="search" bind:value={searchTerm} />
 
-	<button type="submit">search</button>
-</form>
+		<button type="submit">search</button>
+	</form> -->
 
-<a href="/manga/manga-dn980422/chapter-2/0">Chainsaw Man</a>
+	<a href="/manga/manga-dn980422" data-sveltekit-reload>Chainsaw Man</a>
+</main>
