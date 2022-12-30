@@ -1,8 +1,7 @@
-import axios from 'axios';
 import type { PageLoad } from './$types';
 import cheerio from 'cheerio';
 
-export const csr = false;
+export const csr = false; // cuz otherwise images break?
 
 export const load = (async ({ params }) => {
 	const { mangaId, chapterId, imageId } = params;

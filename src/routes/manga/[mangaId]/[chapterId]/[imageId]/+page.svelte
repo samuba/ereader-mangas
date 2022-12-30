@@ -2,7 +2,6 @@
 	import cheerio from 'cheerio';
 	import type { PageData } from './$types';
 
-	export const csr = false;
 	export let data: PageData;
 </script>
 
