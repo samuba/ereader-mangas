@@ -1,4 +1,6 @@
 <script lang="ts">
+	import NavMenu from '$lib/NavMenu.svelte';
+
 	let searchTerm: string;
 
 	async function search() {
@@ -24,17 +26,33 @@
 		});
 		console.log('res', await res.text());
 	}
+
+	const pinnedMangas = [
+		{
+			name: 'Chainsaw Man',
+			id: 'manga-dn980422'
+		},
+		{
+			name: 'The Fable',
+			id: 'manga-cc980059'
+		}
+	];
 </script>
 
-<main class="container">
-	<br />
-	<h1>ereader-mangas</h1>
+<NavMenu />
 
+<main class="container">
 	<!-- <form on:submit|preventDefault={search}>
 		<input type="search" bind:value={searchTerm} />
 
 		<button type="submit">search</button>
 	</form> -->
 
-	<a href="/manga/manga-dn980422" data-sveltekit-reload>Chainsaw Man</a>
+	<ul>
+		{#each pinnedMangas as manga}
+			<li>
+				<a href={`/manga/${manga.id}`} data-sveltekit-reload>{manga.name}</a>
+			</li>
+		{/each}
+	</ul>
 </main>

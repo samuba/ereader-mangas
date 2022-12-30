@@ -1,8 +1,11 @@
 <script lang="ts">
+	import NavMenu from '$lib/NavMenu.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
+
+<NavMenu />
 
 <div class="container">
 	<br />
