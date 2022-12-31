@@ -1,7 +1,5 @@
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 import { load as cheerioLoad } from 'cheerio';
-
-export const csr = false; // cuz otherwise images break?
 
 export const load = (async ({ params }) => {
 	const { mangaId, chapterId, imageId } = params;
@@ -37,4 +35,4 @@ export const load = (async ({ params }) => {
 		imgUrls,
 		currentImageUrl: `/image?url=${encodeURIComponent(imgUrls[imageNumber])}`
 	};
-}) satisfies PageLoad;
+}) satisfies PageServerLoad;
