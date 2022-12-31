@@ -3,7 +3,7 @@
 		<center style="width: 100%">
 			<li>
 				<a href="/" class="contrast">
-					<h6>
+					<h5>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="26"
@@ -18,7 +18,7 @@
 							/>
 						</svg>
 						eReader Mangas
-					</h6>
+					</h5>
 				</a>
 			</li>
 		</center>

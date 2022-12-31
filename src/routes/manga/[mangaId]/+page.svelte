@@ -8,14 +8,14 @@
 <NavMenu />
 
 <div class="container">
-	<table class="margin-top: 24px; margin-bottom: 24px;">
+	<table class="margin-top: 24px;">
 		<tbody>
 			<tr>
-				<td style="margin-right: 24px;">
+				<td>
 					<img src={data.thumbnail} style="margin-right: 24px;" alt="" />
 				</td>
 				<td>
-					<h1 style="margin-bottom: 1rem;">
+					<h1 style="margin-bottom: 12px;">
 						{data.title}
 					</h1>
 					<table>
@@ -40,7 +40,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<ul>
+	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}
 			<li>
 				<a href={chapter.url} data-sveltekit-reload>{chapter.text}</a> | uploaded: {chapter.date}
