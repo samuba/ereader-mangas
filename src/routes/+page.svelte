@@ -35,6 +35,42 @@
 		{
 			name: 'The Fable',
 			id: 'manga-cc980059'
+		},
+		{
+			name: 'One Piece',
+			id: 'manga-aa951409'
+		},
+		{
+			name: 'Dandadan',
+			id: 'manga-lp988998'
+		},
+		{
+			name: 'My Home Hero',
+			id: 'manga-fa983083'
+		},
+		{
+			name: 'Onepunch-Man',
+			id: 'manga-wd951838'
+		},
+		{
+			name: 'Gleipnir',
+			id: 'manga-lx952480'
+		},
+		{
+			name: 'Gantz:e',
+			id: 'manga-ho984623'
+		},
+		{
+			name: 'Dr. Stone',
+			id: 'manga-yz975382'
+		},
+		{
+			name: 'I Am a Hero',
+			id: 'manga-ep954372'
+		},
+		{
+			name: 'Ajin',
+			id: 'manga-qj952992'
 		}
 	];
 </script>
