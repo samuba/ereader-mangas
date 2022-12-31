@@ -15,13 +15,10 @@
 		console.log(imgElement.complete);
 		console.log(imgElement.naturalHeight);
 		// if (imgElement.naturalHeight === 0) return; // image loading failed
-
-		if (imgElement.complete) {
-			console.log('h', imgElement.height);
-			console.log('w', imgElement.width);
-			showDifferent = imgElement.width > imgElement.height;
-			imgHeight = showDifferent ? window.innerHeight + 'px' : '100%';
-		}
+		console.log('h', imgElement.height);
+		console.log('w', imgElement.width);
+		showDifferent = imgElement.width > imgElement.height;
+		imgHeight = showDifferent ? window.innerHeight + 'px' : '100%';
 	}
 
 	let imgHeight = '100%';
@@ -30,6 +27,10 @@
 	let showDifferent = false;
 </script>
 
+{#if browser}
+	inner: {window.innerHeight}
+	imgHeight: {imgHeight}
+{/if}
 <div style="overflow: auto;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
