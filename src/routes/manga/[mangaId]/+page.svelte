@@ -6,9 +6,6 @@
 	export let data: PageData;
 
 	const order = Number($page.url.searchParams.get('order'));
-	if (order === 1) {
-		data.chapters = data.chapters.reverse();
-	}
 </script>
 
 <NavMenu />
@@ -40,22 +37,15 @@
 									{/if}
 								</tr>
 							{/each}
-							<tr>
-								<td>
-									<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>Reverse Order</a>
-								</td>
-								<td />
-							</tr>
 						</tbody>
 					</table>
+					<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>
+						Reverse Chapter Order
+					</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-
-	<article>
-		<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>Reverse Order</a>
-	</article>
 
 	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}

@@ -1,8 +1,7 @@
-import { error } from '@sveltejs/kit';
 import { load as cheerioLoad } from 'cheerio';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, url }) => {
 	const { mangaId } = params;
 	const data = await fetch(`https://chapmanganato.com/${mangaId}`, {
 		mode: 'no-cors'
@@ -14,7 +13,7 @@ export const load = (async ({ params }) => {
 	const thumbnail = $('.info-image img').attr('src');
 	const chapters = $('.row-content-chapter li')
 		.map((_, el) => {
-			const remoteUrl = $(el).find('a').attr('href');
+			const remoteUrl = $(el).find('a').attr('href')!;
 			const chapterId = remoteUrl.split('/').reverse()[0];
 			return {
 				text: $(el).find('a').text(),
@@ -23,6 +22,10 @@ export const load = (async ({ params }) => {
 			};
 		})
 		.get();
+	if (Number(url.searchParams.get('order')) === 1) {
+		chapters.reverse();
+	}
+
 	const infoElements = [
 		{
 			label: 'Author',
