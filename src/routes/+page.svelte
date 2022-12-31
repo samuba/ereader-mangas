@@ -87,7 +87,9 @@
 	<ul>
 		{#each pinnedMangas as manga}
 			<li>
-				<a href={`/manga/${manga.id}`} data-sveltekit-reload>{manga.name}</a>
+				<h5>
+					<a href={`/manga/${manga.id}`} data-sveltekit-reload>{manga.name}</a>
+				</h5>
 			</li>
 		{/each}
 	</ul>
