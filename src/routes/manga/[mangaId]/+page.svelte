@@ -1,8 +1,14 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import NavMenu from '$lib/NavMenu.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	const order = Number($page.url.searchParams.get('order'));
+	if (order === 1) {
+		data.chapters = data.chapters.reverse();
+	}
 </script>
 
 <NavMenu />
@@ -34,16 +40,18 @@
 									{/if}
 								</tr>
 							{/each}
+							<tr>
+								<td> Actions: </td>
+								<td>
+									<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>Reverse Order</a>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-
-	<div>
-		<button on:click={() => (data.chapters = data.chapters.reverse())}>Reverse Order</button>
-	</div>
 
 	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}
