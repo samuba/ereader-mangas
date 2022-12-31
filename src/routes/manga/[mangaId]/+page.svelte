@@ -41,10 +41,10 @@
 								</tr>
 							{/each}
 							<tr>
-								<td> Actions: </td>
 								<td>
 									<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>Reverse Order</a>
 								</td>
+								<td />
 							</tr>
 						</tbody>
 					</table>
@@ -53,12 +53,15 @@
 		</tbody>
 	</table>
 
+	<article>
+		<a href={`?order=${order === 0 ? 1 : 0}`} data-sveltekit-reload>Reverse Order</a>
+	</article>
+
 	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}
 			<li style="margin-bottom: 12px;">
 				<a href={chapter.url} data-sveltekit-reload>{chapter.text}</a>
-				— <small>uploaded: {chapter.date}</small>
-				<br />
+				<small>— uploaded: {chapter.date}</small>
 			</li>
 		{/each}
 	</ul>
