@@ -4,57 +4,24 @@
 
 	export let data: PageData;
 
-	let browser = false;
-
 	onMount(() => {
-		browser = true;
-		// imgElement.onload = () => {
-		// 	adjustImgHeight();
-		// };
+		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 	});
 
-	function adjustImgHeight() {
-		console.log(imgElement.complete);
-		console.log(imgElement.naturalHeight);
-		// if (imgElement.naturalHeight === 0) return; // image loading failed
-		console.log('h', imgElement.height);
-		console.log('w', imgElement.width);
-		showDifferent = imgElement.width > imgElement.height;
-		imgHeight = showDifferent ? window.innerHeight + 'px' : '100%';
-	}
-
-	let imgHeight = '100%';
 	let imgElement: HTMLImageElement;
-
-	let showDifferent = false;
-
-	setTimeout(() => {
-		if (typeof window !== 'undefined') {
-			const el = document.getElementById('image')!;
-			el.onload = adjustImgHeight;
-			const p = document.createElement('p');
-			p.textContent = 'sdsdfsdasdfgadf';
-			document.body.appendChild(p);
-			browser = true;
-		}
-	}, 900);
+	let optimizeForWidePage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 </script>
 
-{#if browser}
-	inner: {window.innerHeight}
-	imgHeight: {imgHeight}
-{/if}
 <div style="overflow: auto;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<img
 			id="image"
-			on:click={adjustImgHeight}
 			bind:this={imgElement}
 			src={data.currentImageUrl}
 			style="object-fit: contain; max-width: unset;"
-			style:height={imgHeight}
-			style:width={showDifferent ? 'unset' : '100%'}
+			style:height={optimizeForWidePage ? window.innerHeight + 'px' : '100%'}
+			style:width={optimizeForWidePage ? 'unset' : '100%'}
 			alt="n"
 		/>
 	</a>
@@ -64,5 +31,4 @@
 	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">Overview</a>
 	<a href={data.nextPageUrl} style="padding-right:1rem;">Next Page</a>
 	<a href={data.nextChapterUrl}>Next Chapter</a>
-	{showDifferent}
 </center>
