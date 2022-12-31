@@ -23,5 +23,28 @@ export const load = (async ({ params }) => {
 			};
 		})
 		.get();
-	return { title, chapters, thumbnail };
+	const infoElements = [
+		{
+			label: 'Author',
+			html: $('.info-author').parent().siblings().first().children().first().toString()
+		},
+		{
+			label: 'Status',
+			html: $('.info-status').parent().siblings().first().toString()
+		},
+		{
+			label: 'Updated',
+			html: $('.info-time').parent().siblings().first().toString()
+		},
+		{
+			label: 'Genres',
+			html: $('.info-genres').parent().siblings().first().toString()
+		},
+		{
+			label: 'Views',
+			html: $('.info-view').parent().siblings().first().toString()
+		}
+	];
+
+	return { title, chapters, thumbnail, infoElements };
 }) satisfies PageServerLoad;
