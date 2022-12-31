@@ -16,14 +16,18 @@ export const load = (async ({ params }) => {
 		})
 		.get();
 
-	//console.log({imgUrls})
 	const chapterPrefix = chapterId.split('-')[0];
 	const chapterNumber = Number(chapterId.split('-')[1]);
 	const nextPageUrl =
 		imageNumber >= imgUrls.length - 1
 			? `/manga/${mangaId}/${chapterPrefix}-${chapterNumber + 1}/0`
 			: `/manga/${mangaId}/${chapterId}/${imageNumber + 1}`;
+	const previousPageUrl =
+		imageNumber === 0
+			? `/manga/${mangaId}/${chapterPrefix}-${chapterNumber - 1}/${imgUrls.length - 1}`
+			: `/manga/${mangaId}/${chapterId}/${imageNumber - 1}`;
 	const nextChapterUrl = `/manga/${mangaId}/${chapterPrefix}-${chapterNumber + 1}/0`;
+	const previousChapterUrl = `/manga/${mangaId}/${chapterPrefix}-${chapterNumber - 1}/0`;
 
 	return {
 		mangaId,
@@ -31,7 +35,9 @@ export const load = (async ({ params }) => {
 		imageId,
 		imageNumber,
 		nextPageUrl,
+		previousPageUrl,
 		nextChapterUrl,
+		previousChapterUrl,
 		imgUrls,
 		currentImageUrl: `/image?url=${encodeURIComponent(imgUrls[imageNumber])}`
 	};

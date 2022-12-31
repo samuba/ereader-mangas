@@ -27,8 +27,10 @@
 	</a>
 </div>
 <center style="display: flex; justify-content: center; ">
+	<a href={data.previousChapterUrl} style="padding-right:1rem;">← Chapter</a>
+	<a href={data.previousPageUrl} style="padding-right:1rem;">← Page</a>
 	<a href="/" style="padding-right:1rem;">Home</a>
 	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">Overview</a>
-	<a href={data.nextPageUrl} style="padding-right:1rem;">Next Page</a>
-	<a href={data.nextChapterUrl}>Next Chapter</a>
+	<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
+	<a href={data.nextChapterUrl}>Chapter →</a>
 </center>
