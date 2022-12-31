@@ -8,10 +8,10 @@
 <NavMenu />
 
 <div class="container">
-	<table class="margin-top: 2rem; margin-bottom: 2rem;">
+	<table class="margin-top: 24px; margin-bottom: 24px;">
 		<tbody>
 			<tr>
-				<td style="margin-right: 2rem;">
+				<td style="margin-right: 24px;">
 					<img src={data.thumbnail} alt="" />
 				</td>
 				<td>
