@@ -8,10 +8,10 @@
 <NavMenu />
 
 <div class="container">
-	<table>
+	<table class="margin-top: 2rem; margin-bottom: 2rem;">
 		<tbody>
 			<tr>
-				<td>
+				<td style="margin-right: 2rem;">
 					<img src={data.thumbnail} alt="" />
 				</td>
 				<td>
@@ -40,8 +40,6 @@
 			</tr>
 		</tbody>
 	</table>
-	<br />
-	<br />
 	<ul>
 		{#each data.chapters as chapter}
 			<li>
