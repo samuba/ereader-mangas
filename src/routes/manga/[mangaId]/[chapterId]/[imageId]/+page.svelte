@@ -8,9 +8,9 @@
 
 	onMount(() => {
 		browser = true;
-		imgElement.onload = () => {
-			adjustImgHeight();
-		};
+		// imgElement.onload = () => {
+		// 	adjustImgHeight();
+		// };
 	});
 
 	function adjustImgHeight() {
@@ -27,6 +27,11 @@
 	let imgElement: HTMLImageElement;
 
 	let showDifferent = false;
+
+	if (typeof window !== 'undefined') {
+		const el = (document.getElementById('image')!.onload = adjustImgHeight);
+		browser = true;
+	}
 </script>
 
 {#if browser}
@@ -37,6 +42,7 @@
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<img
+			id="image"
 			on:click={adjustImgHeight}
 			bind:this={imgElement}
 			src={data.currentImageUrl}
