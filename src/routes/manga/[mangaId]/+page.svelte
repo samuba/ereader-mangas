@@ -8,33 +8,38 @@
 <NavMenu />
 
 <div class="container">
-	<h1>{data.title}</h1>
-	<div class="">
-		<div style="display: inline-block;">
-			<img src={data.thumbnail} alt="" />
-		</div>
-
-		<div style="float: right;">
-			<table>
-				<tbody>
-					{#each data.infoElements as info}
-						<tr>
-							<td>
-								{info.label}:
-							</td>
-							{#if info.html.startsWith('<td')}
-								{@html info.html}
-							{:else}
-								<td>
-									{@html info.html}
-								</td>
-							{/if}
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
-	</div>
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<img src={data.thumbnail} alt="" />
+				</td>
+				<td>
+					<h1 style="margin-bottom: 1rem;">
+						{data.title}
+					</h1>
+					<table>
+						<tbody>
+							{#each data.infoElements as info}
+								<tr>
+									<td>
+										{info.label}:
+									</td>
+									{#if info.html.startsWith('<td')}
+										{@html info.html}
+									{:else}
+										<td>
+											{@html info.html}
+										</td>
+									{/if}
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 	<br />
 	<br />
 	<ul>
