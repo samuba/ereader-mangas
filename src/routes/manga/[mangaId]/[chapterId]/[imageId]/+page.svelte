@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
+	let browser = false;
+
 	onMount(() => {
+		browser = true;
 		imgElement.onload = () => {
 			adjustImgHeight();
 		};
