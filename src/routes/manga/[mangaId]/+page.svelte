@@ -12,7 +12,7 @@
 		<tbody>
 			<tr>
 				<td style="margin-right: 24px;">
-					<img src={data.thumbnail} alt="" />
+					<img src={data.thumbnail} style="margin-right: 24px;" alt="" />
 				</td>
 				<td>
 					<h1 style="margin-bottom: 1rem;">
