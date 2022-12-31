@@ -40,10 +40,16 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div>
+		<button on:click={() => (data.chapters = data.chapters.reverse())}>Reverse Order</button>
+	</div>
+
 	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}
 			<li style="margin-bottom: 12px;">
-				<a href={chapter.url} data-sveltekit-reload>{chapter.text}</a> | uploaded: {chapter.date}
+				<a href={chapter.url} data-sveltekit-reload>{chapter.text}</a>
+				— <small>uploaded: {chapter.date}</small>
 				<br />
 			</li>
 		{/each}
