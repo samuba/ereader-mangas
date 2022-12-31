@@ -29,7 +29,11 @@
 	let showDifferent = false;
 
 	if (typeof window !== 'undefined') {
-		const el = (document.getElementById('image')!.onload = adjustImgHeight);
+		const el = document.getElementById('image')!;
+		el.onload = adjustImgHeight;
+		const p = document.createElement('p');
+		p.textContent = 'sdsdfsdasdfgadf';
+		document.body.appendChild(p);
 		browser = true;
 	}
 </script>
