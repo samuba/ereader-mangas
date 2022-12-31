@@ -42,7 +42,7 @@
 	</table>
 	<ul style="margin-top: 24px;">
 		{#each data.chapters as chapter}
-			<li>
+			<li style="margin-bottom: 12px;">
 				<a href={chapter.url} data-sveltekit-reload>{chapter.text}</a> | uploaded: {chapter.date}
 				<br />
 			</li>
