@@ -25,6 +25,7 @@ export const load = (async ({ params }) => {
 		imageNumber >= imgUrls.length - 1
 			? `/manga/${mangaId}/${chapterPrefix}-${chapterNumber + 1}/0`
 			: `/manga/${mangaId}/${chapterId}/${imageNumber + 1}`;
+	const nextChapterUrl = `/manga/${mangaId}/${chapterPrefix}-${chapterNumber + 1}/0`;
 
 	return {
 		mangaId,
@@ -32,6 +33,7 @@ export const load = (async ({ params }) => {
 		imageId,
 		imageNumber,
 		nextPageUrl,
+		nextChapterUrl,
 		imgUrls,
 		currentImageUrl: `/image?url=${encodeURIComponent(imgUrls[imageNumber])}`
 	};

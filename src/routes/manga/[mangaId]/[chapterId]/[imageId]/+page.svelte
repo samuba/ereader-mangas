@@ -9,5 +9,7 @@
 </a>
 <center style="display: flex; justify-content: center; ">
 	<a href="/" style="padding-right:1rem;">Home</a>
-	<a href={`/manga/${data.mangaId}`}>Overview</a>
+	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">Overview</a>
+	<a href={data.nextPageUrl} style="padding-right:1rem;">Next Page</a>
+	<a href={data.nextChapterUrl}>Next Chapter</a>
 </center>
