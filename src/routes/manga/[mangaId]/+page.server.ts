@@ -29,7 +29,14 @@ export const load = (async ({ params, url }) => {
 	const infoElements = [
 		{
 			label: 'Author',
-			html: $('.info-author').parent().siblings().first().children().first().toString()
+			html: $('.info-author')
+				.parent()
+				.siblings()
+				.first()
+				.text()
+				.split('-')
+				.map((x) => `<a href="/?search=${encodeURIComponent(x)}">${x}</a>`)
+				.join(' - ')
 		},
 		{
 			label: 'Status',
