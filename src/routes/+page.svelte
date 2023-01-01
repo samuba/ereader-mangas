@@ -28,7 +28,7 @@
 		</div>
 	{/if}
 
-	<h2>Favorites</h2>
+	<h2>★ Favorites</h2>
 	<div>
 		{#each data.favorites as manga}
 			<MangaCard {manga} />

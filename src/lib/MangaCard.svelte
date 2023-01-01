@@ -6,7 +6,9 @@
 	const authors = manga.author.split(',');
 </script>
 
-<article style="width:500px; display: inline-block; margin-right: 12px">
+<article
+	style="width:500px; display: inline-block; margin-right: 12px; margin-bottom: 12px; margin-top: 0; padding: 24px;"
+>
 	<a href={`/manga/${manga.mangaId}`}>
 		<h5 style="margin-bottom: 0px;">
 			{manga.title}
