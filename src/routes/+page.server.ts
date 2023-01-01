@@ -2,11 +2,12 @@ import type { PageServerLoad } from './$types';
 import mangas from './mangas.json' assert { type: 'json' };
 import Fuse from 'fuse.js';
 import type { Manga, ScrapedManga } from '$lib/types';
+import { getFavorites } from '$lib/cookies';
 
 export const load = (async ({ url, cookies }) => {
 	const searchTerm = url.searchParams.get('search');
 	const favorites = [] as Manga[];
-	(cookies.get('favorites') ?? '').split('-').forEach((x) => {
+	getFavorites(cookies).forEach((x) => {
 		const manga = (mangas as ScrapedManga[]).find((y) => y.i === x);
 		if (manga) favorites.push(scrapedMangaToManga(manga));
 	});
