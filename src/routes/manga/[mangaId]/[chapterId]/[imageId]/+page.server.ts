@@ -6,9 +6,6 @@ export const load = (async ({ params, cookies }) => {
 	const imageNumber = Number(imageId);
 	console.log({ mangaId, chapterId, imageId });
 
-	const lastChapter = cookies.get('last-chapter');
-	console.log({ lastChapter });
-
 	cookies.set('last-chapter', chapterId, {
 		path: `/manga/${mangaId}`,
 		sameSite: 'strict',

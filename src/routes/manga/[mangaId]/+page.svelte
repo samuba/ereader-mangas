@@ -44,18 +44,18 @@
 							href={`/manga/${data.mangaId}/${data.userPosition.lastChapter}/${data.userPosition.lastPage}`}
 							data-sveltekit-reload
 							role="button"
-							style="margin-right: 12px;"
+							style="margin-right: 24px;"
 						>
-							▶&nbsp;&nbsp; Continue
+							<b> ▶&nbsp;&nbsp; Continue </b>
 						</a>
 					{:else}
 						<a
 							href={`/manga/${data.mangaId}/chapter-1/0`}
 							data-sveltekit-reload
 							role="button"
-							style="margin-right: 12px;"
+							style="margin-right: 24px;"
 						>
-							▶&nbsp;&nbsp; Read
+							<b> ▶&nbsp;&nbsp; Read </b>
 						</a>
 					{/if}
 					<a
@@ -64,7 +64,7 @@
 						class="secondary outline"
 						data-sveltekit-reload
 					>
-						Reverse Chapters
+						<b>Reverse Chapters </b>
 					</a>
 				</td>
 			</tr>
