@@ -3,7 +3,7 @@
 		<center style="width: 100%">
 			<li>
 				<a href="/" class="contrast">
-					<h5 style="font-size: 18px;">
+					<h5 style="font-size: 24px;">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="26"
