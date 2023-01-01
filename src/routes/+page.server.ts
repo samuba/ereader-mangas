@@ -17,7 +17,7 @@ export const load = (async ({ url }) => {
 		searchResults = fuse.search(search).map((x) => ({
 			...x,
 			item: {
-				mangaId: x.item.i,
+				mangaId: 'manga-' + x.item.i,
 				author: x.item.a,
 				thumbnail: x.item.p,
 				rating: x.item.r,
