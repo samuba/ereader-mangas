@@ -2,16 +2,16 @@ import * as cheerio from 'npm:cheerio@1.0.0-rc.12';
 
 console.time('finished after');
 const startTime = new Date();
-const fileName = './static/mangas.json';
+const fileName = './src/routes/mangas2.json';
 const numberOfConcurrentFetches = 100;
-type Manga = {
-	mangaId: string;
-	title: string;
-	thumbnail: string;
-	views: string;
-	author: string;
-	rating: number;
-	updated: string;
+type ScrapedManga = {
+	i: string; //id
+	t: string; //title
+	p: string; //picture
+	v: string; //views
+	a: string; //author
+	r: number; //rating
+	u: string; //updated
 };
 
 const firstPage = 1;
@@ -21,7 +21,7 @@ let lastPage = 9999; // will be overriden
 Deno.writeTextFileSync(fileName, '');
 
 while (currentPage <= lastPage) {
-	const mangas = [] as Manga[];
+	const mangas = [] as ScrapedManga[];
 	console.log(`fetching pages ${currentPage} - ${currentPage + (numberOfConcurrentFetches - 1)}`);
 	try {
 		const fetches = [];
@@ -45,13 +45,13 @@ while (currentPage <= lastPage) {
 		cheerioContents.forEach(($) => {
 			$('.content-genres-item').map((_, el) => {
 				mangas.push({
-					title: $(el).find('.genres-item-name').text(),
-					mangaId: $(el).find('.genres-item-name').attr('href')!.split('/').reverse()[0],
-					thumbnail: $(el).find('.genres-item-img img').attr('src')!,
-					views: $(el).find('.genres-item-view').text()!,
-					author: $(el).find('.genres-item-author').text()!,
-					rating: Number($(el).find('.genres-item-rate').text()!),
-					updated: $(el).find('.genres-item-time').text()!
+					t: $(el).find('.genres-item-name').text(),
+					i: $(el).find('.genres-item-name').attr('href')!.split('/').reverse()[0].split('-')[1],
+					p: $(el).find('.genres-item-img img').attr('src')!,
+					v: $(el).find('.genres-item-view').text()!,
+					a: $(el).find('.genres-item-author').text()!,
+					r: Number($(el).find('.genres-item-rate').text()!),
+					u: $(el).find('.genres-item-time').text()!
 				});
 			});
 		});
@@ -68,7 +68,7 @@ console.log('\nfinished after ' + timeTillNow(startTime));
 console.log(`fetched manga pages ${firstPage}-${lastPage}`);
 
 const allMangas = JSON.parse(Deno.readTextFileSync(fileName));
-const allMangasUnique = [...new Map(allMangas.map((x) => [x['mangaId'], x])).values()];
+const allMangasUnique = [...new Map(allMangas.map((x) => [x['i'], x])).values()];
 Deno.writeTextFileSync(fileName, JSON.stringify(allMangasUnique, null, 2));
 console.log(`fetched ${allMangasUnique.length} unique mangas overall`);
 
