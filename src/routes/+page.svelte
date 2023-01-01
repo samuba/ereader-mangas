@@ -1,23 +1,8 @@
 <script lang="ts">
 	import NavMenu from '$lib/NavMenu.svelte';
-	import { onMount } from 'svelte';
-	import Fuse from 'fuse.js';
-	import { page } from '$app/stores';
+	import type { PageServerData } from './$types';
 
-	type Manga = {
-		mangaId: string;
-		title: string;
-		thumbnail: string;
-		views: string;
-		author: string;
-		rating: number;
-		updated: string;
-	};
-
-	let searchTerm = '';
-	let mangas = [] as Manga[];
-	let fuse: ReturnType<typeof buildFuseSearch>;
-	let searchResults = [] as Fuse.FuseResult<Manga>[] | undefined;
+	export let data: PageServerData;
 
 	const pinnedMangas = [
 		{
@@ -65,53 +50,25 @@
 			id: 'manga-qj952992'
 		}
 	];
-
-	onMount(async () => {
-		mangas = await fetch('/mangas.json').then((x) => x.json());
-		fuse = buildFuseSearch(mangas);
-		const paramTerm = $page.url.searchParams.get('search');
-		if (paramTerm) searchTerm = paramTerm;
-		search();
-	});
-
-	function buildFuseSearch(mangas: Manga[]) {
-		return new Fuse(mangas, {
-			isCaseSensitive: false,
-			shouldSort: true,
-			minMatchCharLength: 3,
-			threshold: 0.3,
-			includeScore: true,
-			keys: ['title', 'author']
-		});
-	}
-
-	function search() {
-		if (!searchTerm) return;
-		searchResults = fuse.search(searchTerm);
-	}
-
-	$: if (!searchTerm) {
-		searchResults = undefined;
-	}
 </script>
 
 <NavMenu />
 
 <main class="container">
-	<form on:submit={search}>
+	<form>
 		<center>
-			<input bind:value={searchTerm} type="search" name="search" style="width: 500px;" />
+			<input value={data.search} type="search" name="search" style="width: 500px;" />
 		</center>
 		<center>
-			{#if searchResults}
-				Found {searchResults?.length} Mangas out of {mangas?.length}
+			{#if data.searchResults}
+				Found {data.searchResults.length} Mangas out of {data.allMangasCount}
 			{/if}
 		</center>
 	</form>
 
-	{#if searchResults}
+	{#if data.searchResults}
 		<div>
-			{#each searchResults as { item, score } (item.mangaId)}
+			{#each data.searchResults as { item } (item.mangaId)}
 				{@const authors = item.author.split(',')}
 				<article style="width:500px; display: inline-block; margin-right: 12px">
 					<a href={`/manga/${item.mangaId}`}>
