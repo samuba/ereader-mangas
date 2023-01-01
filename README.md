@@ -5,6 +5,13 @@ So I build this to fix my pain.
 
 [https://ereader-mangas.vercel.app](https://ereader-mangas.vercel.app)
 
+# features
+
+- utilizes as much of the screen as possible
+- remembers last position
+- powerful search
+- over 33.7000 Mangas
+
 ## Disclaimer
 
 This is basically just an ereader friendly frontend for manganato.com. I do not host any content myself, all data is just proxied.

@@ -1,7 +1,7 @@
 import { load as cheerioLoad } from 'cheerio';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ params, url }) => {
+export const load = (async ({ params, url, cookies }) => {
 	const { mangaId } = params;
 	const data = await fetch(`https://chapmanganato.com/${mangaId}`, {
 		mode: 'no-cors'
@@ -56,5 +56,15 @@ export const load = (async ({ params, url }) => {
 		}
 	];
 
-	return { title, chapters, thumbnail, infoElements };
+	return {
+		mangaId,
+		title,
+		chapters,
+		thumbnail,
+		infoElements,
+		userPosition: {
+			lastChapter: cookies.get('last-chapter'),
+			lastPage: cookies.get('last-page')
+		}
+	};
 }) satisfies PageServerLoad;
