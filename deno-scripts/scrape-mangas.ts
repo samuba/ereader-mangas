@@ -1,18 +1,10 @@
 import * as cheerio from 'npm:cheerio@1.0.0-rc.12';
+import type { ScrapedManga } from '../src/lib/types';
 
 console.time('finished after');
 const startTime = new Date();
 const fileName = './src/routes/mangas2.json';
 const numberOfConcurrentFetches = 100;
-type ScrapedManga = {
-	i: string; //id
-	t: string; //title
-	p: string; //picture
-	v: string; //views
-	a: string; //author
-	r: number; //rating
-	u: string; //updated
-};
 
 const firstPage = 1;
 let currentPage = firstPage;

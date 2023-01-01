@@ -1,21 +1,13 @@
 import type { PageServerLoad } from './$types';
 import { load as cheerioLoad } from 'cheerio';
+import type { Cookies } from '@sveltejs/kit';
 
 export const load = (async ({ params, cookies }) => {
-	const { mangaId, chapterId, imageId } = params;
-	const imageNumber = Number(imageId);
-	console.log({ mangaId, chapterId, imageId });
+	const { mangaId, chapterId, pageId } = params;
+	const imageNumber = Number(pageId);
+	console.log({ mangaId, chapterId, pageId });
 
-	cookies.set('last-chapter', chapterId, {
-		path: `/manga/${mangaId}`,
-		sameSite: 'strict',
-		maxAge: 60 * 60 * 24 * 365
-	});
-	cookies.set('last-page', imageId, {
-		path: `/manga/${mangaId}`,
-		sameSite: 'strict',
-		maxAge: 60 * 60 * 24 * 365
-	});
+	setUsersLastPosition(cookies, mangaId, chapterId, pageId);
 
 	const data = await fetch(`https://chapmanganato.com/${mangaId}/${chapterId}`, {
 		mode: 'no-cors'
@@ -43,7 +35,7 @@ export const load = (async ({ params, cookies }) => {
 	return {
 		mangaId,
 		chapterId,
-		imageId,
+		pageId,
 		imageNumber,
 		nextPageUrl,
 		previousPageUrl,
@@ -53,3 +45,21 @@ export const load = (async ({ params, cookies }) => {
 		currentImageUrl: `/image?url=${encodeURIComponent(imgUrls[imageNumber])}`
 	};
 }) satisfies PageServerLoad;
+
+function setUsersLastPosition(
+	cookies: Cookies,
+	mangaId: string,
+	chapterId: string,
+	pageId: string
+) {
+	cookies.set('chapter', chapterId, {
+		path: `/manga/${mangaId}`,
+		sameSite: 'strict',
+		maxAge: 60 * 60 * 24 * 999
+	});
+	cookies.set('page', pageId, {
+		path: `/manga/${mangaId}`,
+		sameSite: 'strict',
+		maxAge: 60 * 60 * 24 * 999
+	});
+}

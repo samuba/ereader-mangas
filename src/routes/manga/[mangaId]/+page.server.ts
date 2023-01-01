@@ -1,8 +1,32 @@
 import { load as cheerioLoad } from 'cheerio';
 import type { PageServerLoad } from './$types';
 
+const cookieItemSeperator = '-';
+
 export const load = (async ({ params, url, cookies }) => {
 	const { mangaId } = params;
+	const shortMangaId = mangaId.replace('manga-', '');
+	const markFavorite = url.searchParams.get('favorite') === 'true' ? true : false;
+	const removeFavorite = url.searchParams.get('unfavorite') === 'true' ? true : false;
+	let favorites = cookies.get('favorites') ?? '';
+
+	if (markFavorite && !favorites.includes(shortMangaId)) {
+		favorites += `${shortMangaId}${cookieItemSeperator}`;
+		cookies.set('favorites', favorites, {
+			path: `/`,
+			sameSite: 'strict',
+			maxAge: 60 * 60 * 24 * 999
+		});
+	}
+	if (removeFavorite && favorites.includes(shortMangaId)) {
+		favorites = favorites.replace(`${shortMangaId}${cookieItemSeperator}`, '');
+		cookies.set('favorites', favorites, {
+			path: `/`,
+			sameSite: 'strict',
+			maxAge: 60 * 60 * 24 * 999
+		});
+	}
+
 	const data = await fetch(`https://chapmanganato.com/${mangaId}`, {
 		mode: 'no-cors'
 	});
@@ -62,9 +86,10 @@ export const load = (async ({ params, url, cookies }) => {
 		chapters,
 		thumbnail,
 		infoElements,
+		isFavorite: favorites.includes(shortMangaId),
 		userPosition: {
-			lastChapter: cookies.get('last-chapter'),
-			lastPage: cookies.get('last-page')
+			lastChapter: cookies.get('chapter'),
+			lastPage: cookies.get('page')
 		}
 	};
 }) satisfies PageServerLoad;

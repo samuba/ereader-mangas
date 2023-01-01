@@ -39,10 +39,10 @@
 							{/each}
 						</tbody>
 					</table>
+
 					{#if data.userPosition.lastPage}
 						<a
 							href={`/manga/${data.mangaId}/${data.userPosition.lastChapter}/${data.userPosition.lastPage}`}
-							data-sveltekit-reload
 							role="button"
 							style="margin-right: 24px;"
 						>
@@ -51,21 +51,21 @@
 					{:else}
 						<a
 							href={`/manga/${data.mangaId}/chapter-1/0`}
-							data-sveltekit-reload
 							role="button"
 							style="margin-right: 24px;"
 						>
 							<b> ▶&nbsp;&nbsp; Read </b>
 						</a>
 					{/if}
-					<a
-						href={`?order=${order === 0 ? 1 : 0}`}
-						role="button"
-						class="secondary outline"
-						data-sveltekit-reload
-					>
-						<b>Reverse Chapters </b>
-					</a>
+					{#if data.isFavorite}
+						<a href="?unfavorite=true" style="margin-right: 24px;" class="outline" role="button">
+							<b> ★&nbsp;&nbsp; Remove Favorite </b>
+						</a>
+					{:else}
+						<a href="?favorite=true" style="margin-right: 24px;" class="outline" role="button">
+							<b> ☆&nbsp;&nbsp; Add Favorite </b>
+						</a>
+					{/if}
 				</td>
 			</tr>
 		</tbody>
