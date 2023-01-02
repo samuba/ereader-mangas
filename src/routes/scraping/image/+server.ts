@@ -7,8 +7,8 @@ export const GET = (async ({ url }) => {
 	if (!imageUrl) throw fail(400);
 	const urlParts = imageUrl.split('.');
 	const filetype = urlParts[urlParts.length - 1].toLowerCase();
-	const data = await fetch(imageUrl, { headers: { Referer: 'https://chapmanganato.com/' } });
-	const cachedMonths = 12 * 30 * 24 * 60 * 60;
+	const data = await fetch(imageUrl, { headers: { Referer: new URL(imageUrl).origin } });
+	const cachedMonths = 1 * 30 * 24 * 60 * 60;
 	return new Response(data.body, {
 		headers: {
 			'Content-Type': `image/${filetype}`,

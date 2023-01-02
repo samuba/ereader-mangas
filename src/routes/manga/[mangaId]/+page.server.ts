@@ -1,15 +1,16 @@
 import { addFavorite, getFavorites, removeFavorite } from '$lib/cookies';
+import { routes } from '$lib/routes';
 import { load as cheerioLoad } from 'cheerio';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ params, url: { searchParams }, cookies }) => {
+export const load = (async ({ params, url: { searchParams, origin }, cookies }) => {
 	const { mangaId } = params;
 
 	if (searchParams.get('favorite') === 'true') addFavorite(cookies, mangaId);
 	if (searchParams.get('unfavorite') === 'true') removeFavorite(cookies, mangaId);
 
 	console.time('fetch manga page');
-	const page = await fetch(`https://chapmanganato.com/${mangaId}`, { mode: 'no-cors' }).then((x) => x.text());
+	const page = await fetch(origin + routes.scrapePage(`https://chapmanganato.com/${mangaId}`)).then((x) => x.text());
 	console.timeEnd('fetch manga page');
 
 	console.time('parse manga page');
@@ -23,7 +24,7 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 			return {
 				text: $(el).find('a').text(),
 				url: `/manga/${mangaId}/${chapterId}/0`,
-				date: $(el).find('.chapter-time').text()
+				date: $(el).find('.chapter-time').text(),
 			};
 		})
 		.get();
@@ -37,24 +38,24 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 				.text()
 				.split('-')
 				.map((x) => `<a href="/?search=${encodeURIComponent(x)}">${x}</a>`)
-				.join(' - ')
+				.join(' - '),
 		},
 		{
 			label: 'Status',
-			html: $('.info-status').parent().siblings().first().toString()
+			html: $('.info-status').parent().siblings().first().toString(),
 		},
 		{
 			label: 'Updated',
-			html: $('.info-time').parent().siblings().first().toString()
+			html: $('.info-time').parent().siblings().first().toString(),
 		},
 		{
 			label: 'Genres',
-			html: $('.info-genres').parent().siblings().first().toString()
+			html: $('.info-genres').parent().siblings().first().toString(),
 		},
 		{
 			label: 'Views',
-			html: $('.info-view').parent().siblings().first().toString()
-		}
+			html: $('.info-view').parent().siblings().first().toString(),
+		},
 	];
 	console.timeEnd('parse manga page');
 
@@ -65,9 +66,9 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 		thumbnail,
 		userPosition: {
 			lastChapter: cookies.get('chapter'),
-			lastPage: cookies.get('page')
+			lastPage: cookies.get('page'),
 		},
 		isFavorite: getFavorites(cookies).includes(mangaId.replace('manga-', '')),
-		infoElements
+		infoElements,
 	};
 }) satisfies PageServerLoad;
