@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import NavMenu from '$lib/NavMenu.svelte';
+	import { routes } from '$lib/routes';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -40,20 +41,16 @@
 						</tbody>
 					</table>
 
-					{#if data.userPosition.lastPage}
+					{#if data.userPosition.lastPage && data.userPosition.lastChapter}
 						<a
-							href={`/manga/${data.mangaId}/${data.userPosition.lastChapter}/${data.userPosition.lastPage}`}
+							href={routes.readPage(data.mangaId, data.userPosition.lastChapter, data.userPosition.lastPage)}
 							role="button"
 							style="margin-right: 24px;"
 						>
 							<b> ▶&nbsp;&nbsp; Continue </b>
 						</a>
 					{:else}
-						<a
-							href={`/manga/${data.mangaId}/chapter-1/0`}
-							role="button"
-							style="margin-right: 24px;"
-						>
+						<a href={routes.readPage(data.mangaId, 'chapter-1', '0')} role="button" style="margin-right: 24px;">
 							<b> ▶&nbsp;&nbsp; Read </b>
 						</a>
 					{/if}

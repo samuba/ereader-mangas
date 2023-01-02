@@ -5,7 +5,7 @@ import { routes } from '$lib/routes';
 
 export const load = (async ({ params, cookies, url: { origin } }) => {
 	const { mangaId, chapterId, pageId } = params;
-	const imageNumber = Number(pageId);
+	const pageNumber = Number(pageId);
 	console.log({ mangaId, chapterId, pageId });
 
 	setUsersLastPosition(cookies, mangaId, chapterId, pageId);
@@ -26,18 +26,18 @@ export const load = (async ({ params, cookies, url: { origin } }) => {
 		mangaId,
 		chapterId,
 		pageId,
-		imageNumber,
+		imageNumber: pageNumber,
 		nextPageUrl:
-			imageNumber >= imgUrls.length - 1
+			pageNumber >= imgUrls.length - 1
 				? routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber + 1}`, '0')
-				: routes.readPage(mangaId, chapterId, `${imageNumber + 1}`),
+				: routes.readPage(mangaId, chapterId, `${pageNumber + 1}`),
 		previousPageUrl:
-			imageNumber === 0
+			pageNumber === 0
 				? routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `${imgUrls.length - 1}`)
-				: routes.readPage(mangaId, chapterId, `${imageNumber - 1}`),
+				: routes.readPage(mangaId, chapterId, `${pageNumber - 1}`),
 		nextChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber + 1}`, `0`),
 		previousChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `0`),
 		imgUrls,
-		currentImageUrl: routes.scrapeImage(imgUrls[imageNumber]),
+		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber]),
 	};
 }) satisfies PageServerLoad;

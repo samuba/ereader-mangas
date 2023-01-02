@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
@@ -6,6 +7,11 @@
 
 	onMount(() => {
 		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
+
+		// pre-warm cache for next images
+		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
+		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
+		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
 	});
 
 	let imgElement: HTMLImageElement;
