@@ -9,9 +9,9 @@
 		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 
 		// pre-warm cache for next images
-		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
-		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
-		fetch(location.origin + routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
+		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
+		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
+		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
 	});
 
 	let imgElement: HTMLImageElement;
@@ -40,3 +40,10 @@
 	<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
 	<a href={data.nextChapterUrl}>Chapter →</a>
 </center>
+
+<div>
+	<!-- preload next pages -->
+	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1])})`} />
+	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2])})`} />
+	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3])})`} />
+</div>
