@@ -23,4 +23,5 @@ This is basically just an ereader friendly frontend for manganato.com. I do not 
 - make proxying the images faster
   - look into streaming the req/res
   - caching via cloudflare
+    - asynchroniously trigger image fetch for the next 3 images
 - optimize pages with long width

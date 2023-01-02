@@ -8,7 +8,11 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 	if (searchParams.get('favorite') === 'true') addFavorite(cookies, mangaId);
 	if (searchParams.get('unfavorite') === 'true') removeFavorite(cookies, mangaId);
 
+	console.time('fetch manga page');
 	const page = await fetch(`https://chapmanganato.com/${mangaId}`, { mode: 'no-cors' }).then((x) => x.text());
+	console.timeEnd('fetch manga page');
+
+	console.time('parse manga page');
 	const $ = cheerioLoad(page);
 	const title = $('h1').text();
 	const thumbnail = $('.info-image img').attr('src');
@@ -23,6 +27,36 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 			};
 		})
 		.get();
+	const infoElements = [
+		{
+			label: 'Author',
+			html: $('.info-author')
+				.parent()
+				.siblings()
+				.first()
+				.text()
+				.split('-')
+				.map((x) => `<a href="/?search=${encodeURIComponent(x)}">${x}</a>`)
+				.join(' - ')
+		},
+		{
+			label: 'Status',
+			html: $('.info-status').parent().siblings().first().toString()
+		},
+		{
+			label: 'Updated',
+			html: $('.info-time').parent().siblings().first().toString()
+		},
+		{
+			label: 'Genres',
+			html: $('.info-genres').parent().siblings().first().toString()
+		},
+		{
+			label: 'Views',
+			html: $('.info-view').parent().siblings().first().toString()
+		}
+	];
+	console.timeEnd('parse manga page');
 
 	return {
 		mangaId,
@@ -34,34 +68,6 @@ export const load = (async ({ params, url: { searchParams }, cookies }) => {
 			lastPage: cookies.get('page')
 		},
 		isFavorite: getFavorites(cookies).includes(mangaId.replace('manga-', '')),
-		infoElements: [
-			{
-				label: 'Author',
-				html: $('.info-author')
-					.parent()
-					.siblings()
-					.first()
-					.text()
-					.split('-')
-					.map((x) => `<a href="/?search=${encodeURIComponent(x)}">${x}</a>`)
-					.join(' - ')
-			},
-			{
-				label: 'Status',
-				html: $('.info-status').parent().siblings().first().toString()
-			},
-			{
-				label: 'Updated',
-				html: $('.info-time').parent().siblings().first().toString()
-			},
-			{
-				label: 'Genres',
-				html: $('.info-genres').parent().siblings().first().toString()
-			},
-			{
-				label: 'Views',
-				html: $('.info-view').parent().siblings().first().toString()
-			}
-		]
+		infoElements
 	};
 }) satisfies PageServerLoad;
