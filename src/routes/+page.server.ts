@@ -13,10 +13,13 @@ const lyraDb = create({
 
 export const load = (async ({ url, cookies }) => {
 	const searchTerm = url.searchParams.get('search');
-	const favorites = [] as Manga[];
 
-	await fetchMangas(url);
-	getFavorites(cookies).forEach((x) => {
+	const favoriteMangaIds = getFavorites(cookies);
+	if (favoriteMangaIds.length > 0 || searchTerm) await fetchMangas(url);
+
+	const favorites = [] as Manga[];
+	favoriteMangaIds.forEach((x) => {
+		// filling instead of map() cuz favorites could contain mangas that are no longer in catalogue
 		const manga = (mangas as ScrapedManga[]).find((y) => y.i === x);
 		if (manga) favorites.push(scrapedMangaToManga(manga));
 	});
