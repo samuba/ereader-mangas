@@ -8,8 +8,11 @@ export const GET = (async ({ url }) => {
 	const urlParts = imageUrl.split('.');
 	const filetype = urlParts[urlParts.length - 1].toLowerCase();
 	const data = await fetch(imageUrl, { headers: { Referer: 'https://chapmanganato.com/' } });
-
-	return new Response(await data.blob(), {
-		headers: { 'Content-Type': `image/${filetype}`, 'Cache-Control': `max-age=${60}, immutable` }
+	const cachedMonths = 12 * 30 * 24 * 60 * 60;
+	return new Response(data.body, {
+		headers: {
+			'Content-Type': `image/${filetype}`,
+			'Cache-Control': `max-age=${cachedMonths}, immutable`
+		}
 	});
 }) satisfies RequestHandler;
