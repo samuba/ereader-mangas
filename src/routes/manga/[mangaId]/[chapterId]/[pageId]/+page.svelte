@@ -9,9 +9,9 @@
 		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 
 		// pre-warm cache for next images
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
+		fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
+		fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
+		fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
 	});
 
 	let imgElement: HTMLImageElement;
