@@ -8,6 +8,7 @@ So I build this to fix my pain.
 # features
 
 - utilizes as much of the screen as possible
+- fast image loads (because of prefetching next images + caching layer. Actually faster than the source)
 - powerful search
 - over 33.7000 Mangas
 - remembers last reading position
@@ -20,8 +21,5 @@ This is basically just an ereader friendly frontend for manganato.com. I do not 
 
 ## TODO
 
-- make proxying the images faster
-  - look into streaming the req/res
-  - caching via cloudflare
-    - asynchroniously trigger image fetch for the next 3 images
+- asynchroniously trigger image fetch for the next 3 images
 - optimize pages with long width
