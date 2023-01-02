@@ -41,9 +41,9 @@
 	<a href={data.nextChapterUrl}>Chapter →</a>
 </center>
 
-<div>
+<div style="height: 1px;">
 	<!-- preload next pages -->
-	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1])})`} />
-	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2])})`} />
-	<div style={`background-image: url(${routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3])})`} />
+	<img style="height: 0px;" src={routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1])} />
+	<img style="height: 0px;" src={routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2])} />
+	<img style="height: 0px;" src={routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3])} />
 </div>
