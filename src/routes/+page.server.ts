@@ -1,13 +1,10 @@
 import type { PageServerLoad } from './$types';
-import Fuse from 'fuse.js';
 import type { Manga, ScrapedManga } from '$lib/types';
 import { getFavorites } from '$lib/cookies';
 import { create, search as searchWithLyra, insert } from '@lyrasearch/lyra';
 
 let mangas = [] as ScrapedManga[];
-let fuse: Fuse<ScrapedManga>;
 const lyraDb = create({
-	tokenizer: {},
 	schema: {
 		t: 'string',
 		a: 'string'
@@ -37,16 +34,6 @@ async function fetchMangas(url: URL) {
 	console.time('fetch');
 	mangas = await fetch(`${url.origin}/mangas.json`).then((x) => x.json());
 
-	console.time('insertFuse');
-	fuse = new Fuse(mangas as ScrapedManga[], {
-		isCaseSensitive: false,
-		shouldSort: true,
-		minMatchCharLength: 3,
-		threshold: 0.3,
-		keys: ['t', 'a']
-	});
-	console.timeEnd('insertFuse');
-
 	console.time('insertLyra');
 	for (const manga of mangas) {
 		// 600ms faster than insertBatch()
@@ -57,7 +44,7 @@ async function fetchMangas(url: URL) {
 	console.timeEnd('fetch');
 }
 
-async function searchLyra(term: string) {
+async function search(term: string) {
 	console.time('searchLyra');
 	const results = searchWithLyra(lyraDb, {
 		term,
@@ -65,22 +52,8 @@ async function searchLyra(term: string) {
 		limit: 1000
 	}).hits.map((x) => scrapedMangaToManga(x.document));
 	console.timeEnd('searchLyra');
-	console.log('searchLyra results', results.length);
 
 	return results;
-}
-
-async function search(term: string) {
-	const lyraResults = searchLyra(term);
-
-	console.time('fuseSearch');
-	const results = fuse.search(term).map((x) => ({
-		...x,
-		item: scrapedMangaToManga(x.item)
-	}));
-	console.timeEnd('fuseSearch');
-	console.log('fuseSearch results', results.length);
-	return lyraResults;
 }
 
 function scrapedMangaToManga(scrapedManga: ScrapedManga) {
