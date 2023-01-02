@@ -8,10 +8,19 @@ So I build this to fix my pain.
 # features
 
 - utilizes as much of the screen as possible
-- remembers last position
 - powerful search
 - over 33.7000 Mangas
+- remembers last reading position
+- add/remove favorites
+- no login required
 
 ## Disclaimer
 
 This is basically just an ereader friendly frontend for manganato.com. I do not host any content myself, all data is just proxied.
+
+## TODO
+
+- make proxying the images faster
+  - look into streaming the req/res
+  - caching via cloudflare
+- optimize pages with long width

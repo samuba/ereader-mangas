@@ -3,7 +3,7 @@ import type { ScrapedManga } from '../src/lib/types';
 
 console.time('finished after');
 const startTime = new Date();
-const fileName = './src/routes/mangas2.json';
+const fileName = './static/mangas.json';
 const numberOfConcurrentFetches = 100;
 
 const firstPage = 1;
