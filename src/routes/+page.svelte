@@ -22,7 +22,7 @@
 
 	{#if data.searchResults}
 		<div>
-			{#each data.searchResults as { item: manga } (manga.mangaId)}
+			{#each data.searchResults as manga (manga.mangaId)}
 				<MangaCard {manga} />
 			{/each}
 		</div>
