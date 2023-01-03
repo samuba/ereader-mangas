@@ -3,7 +3,8 @@ import { load as cheerioLoad } from 'cheerio';
 import { refreshFavoritesCookie, setUsersLastPosition } from '$lib/cookies';
 import { routes } from '$lib/routes';
 
-export const load = (async ({ params, cookies, url: { origin } }) => {
+export const load = (async ({ params, cookies, url }) => {
+	const { origin } = url;
 	const { mangaId, chapterId, pageId } = params;
 	const pageNumber = Number(pageId);
 	console.log({ mangaId, chapterId, pageId });
@@ -21,6 +22,15 @@ export const load = (async ({ params, cookies, url: { origin } }) => {
 
 	const chapterPrefix = chapterId.split('-')[0];
 	const chapterNumber = Number(chapterId.split('-')[1]);
+
+	await fetch(
+		url.origin +
+			routes.warmCache([
+				origin + routes.scrapeImage(imgUrls[pageNumber + 1]),
+				origin + routes.scrapeImage(imgUrls[pageNumber + 2]),
+				origin + routes.scrapeImage(imgUrls[pageNumber + 3]),
+			]),
+	);
 
 	return {
 		mangaId,
