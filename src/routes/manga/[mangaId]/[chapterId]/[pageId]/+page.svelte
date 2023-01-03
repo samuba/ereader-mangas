@@ -6,13 +6,6 @@
 	export let data: PageData;
 
 	onMount(() => {
-		var xmlhttp1 = new XMLHttpRequest();
-		xmlhttp1.open('GET', data.nextImageUrl, false);
-		xmlhttp1.send();
-		var xmlhttp2 = new XMLHttpRequest();
-		xmlhttp2.open('GET', data.nextPageUrl, false);
-		xmlhttp2.send();
-
 		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 	});
 
