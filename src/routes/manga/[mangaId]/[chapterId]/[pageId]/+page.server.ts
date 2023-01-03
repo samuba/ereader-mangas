@@ -54,5 +54,6 @@ export const load = (async ({ params, cookies, url, setHeaders }) => {
 		previousChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `0`),
 		imgUrls,
 		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber], remotePageUrl),
+		nextImageUrl: routes.scrapeImage(imgUrls[pageNumber + 1], remotePageUrl),
 	};
 }) satisfies PageServerLoad;

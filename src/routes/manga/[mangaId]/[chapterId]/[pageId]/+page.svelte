@@ -6,13 +6,19 @@
 	export let data: PageData;
 
 	onMount(() => {
-		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
+		// pre-warm cache for next page
+		ancientFetch(data.nextImageUrl);
+		ancientFetch(data.nextPageUrl);
 
-		// pre-warm cache for next images
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 1]));
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 2]));
-		// fetch(routes.scrapeImage(data.imgUrls[Number(data.pageId) + 3]));
+		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 	});
+
+	function ancientFetch(url: string) {
+		// not using fetch() cuz its not available in kindle browser
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open('GET', url, true);
+		xmlhttp.send();
+	}
 
 	let imgElement: HTMLImageElement;
 	let optimizeForWidePage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
