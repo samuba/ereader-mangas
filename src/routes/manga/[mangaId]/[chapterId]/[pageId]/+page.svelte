@@ -6,19 +6,8 @@
 	export let data: PageData;
 
 	onMount(() => {
-		// pre-warm cache for next page
-		ancientFetch(data.nextImageUrl);
-		ancientFetch(data.nextPageUrl);
-
 		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
 	});
-
-	function ancientFetch(url: string) {
-		// not using fetch() cuz its not available in kindle browser
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open('GET', url, true);
-		xmlhttp.send();
-	}
 
 	let imgElement: HTMLImageElement;
 	let optimizeForWidePage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
@@ -46,3 +35,7 @@
 	<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
 	<a href={data.nextChapterUrl}>Chapter →</a>
 </center>
+
+<!-- for prewarming cache. see app.html -->
+<span id="next-page-url" style="display: none">{data.nextPageUrl}</span>
+<span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
