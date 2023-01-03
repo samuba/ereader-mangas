@@ -15,11 +15,11 @@
 	// doing this kungfu cuz svelte js does not work in kindle browser
 
 	var xmlhttp1 = new XMLHttpRequest();
-	xmlhttp1.open('GET', document.getElementById('next-image-url').innerText, false);
+	xmlhttp1.open('GET', document.getElementById('next-image-url').innerText, true);
 	xmlhttp1.send();
 
 	var xmlhttp2 = new XMLHttpRequest();
-	xmlhttp2.open('GET', document.getElementById('next-page-url').innerText, false);
+	xmlhttp2.open('GET', document.getElementById('next-page-url').innerText, true);
 	xmlhttp2.send();
 
 	console.log('done', document.getElementById('next-image-url').innerText);
