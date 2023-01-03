@@ -2,8 +2,9 @@ import type { PageServerLoad } from './$types';
 import { load as cheerioLoad } from 'cheerio';
 import { refreshFavoritesCookie, setUsersLastPosition } from '$lib/cookies';
 import { routes } from '$lib/routes';
+import { error } from '@sveltejs/kit';
 
-export const load = (async ({ params, cookies, url }) => {
+export const load = (async ({ params, cookies, url, setHeaders }) => {
 	const { origin } = url;
 	const { mangaId, chapterId, pageId } = params;
 	const pageNumber = Number(pageId);
@@ -14,25 +15,28 @@ export const load = (async ({ params, cookies, url }) => {
 
 	const remotePageUrl = `https://chapmanganato.com/${mangaId}/${chapterId}`;
 	const data = await fetch(origin + routes.scrapePage(remotePageUrl));
-	const $ = cheerioLoad(await data.text());
+	if (!data.ok) {
+		throw error(data.status, { message: `Could not scrape manga from source: ${data.statusText}` });
+	}
+	const pageContent = await data.text();
+	if (pageContent.includes('PAGE NOT FOUND')) {
+		throw error(404, { message: 'Could not find manga in source. Are you sure it exists?' });
+	}
+	const $ = cheerioLoad(pageContent);
 	const imgUrls = $('.container-chapter-reader img')
 		.map(function () {
 			return $(this).attr('src');
 		})
 		.get();
 
+	if (pageNumber > imgUrls.length) {
+		throw error(400, { message: 'Manga Page does not exist' });
+	}
+
 	const chapterPrefix = chapterId.split('-')[0];
 	const chapterNumber = Number(chapterId.split('-')[1]);
 
-	await fetch(
-		url.origin +
-			routes.warmCache([
-				origin + routes.scrapeImage(imgUrls[pageNumber + 1], remotePageUrl),
-				origin + routes.scrapeImage(imgUrls[pageNumber + 2], remotePageUrl),
-				origin + routes.scrapeImage(imgUrls[pageNumber + 3], remotePageUrl),
-			]),
-	);
-
+	setHeaders({ 'Cache-Control': `max-age=${60 * 60 * 24}, immutable` });
 	return {
 		mangaId,
 		chapterId,
