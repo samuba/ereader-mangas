@@ -15,11 +15,20 @@
 	// doing this kungfu cuz svelte js does not work in kindle browser
 	var el = document.getElementById('next-image-url');
 	if (el) {
-		var xmlhttp1 = new XMLHttpRequest();
-		xmlhttp1.open('GET', document.getElementById('next-image-url').innerText, false);
-		xmlhttp1.send();
-		var xmlhttp2 = new XMLHttpRequest();
-		xmlhttp2.open('GET', document.getElementById('next-page-url').innerText, false);
-		xmlhttp2.send();
+		var imageUrl = document.getElementById('next-image-url').innerText;
+		var pageUrl = document.getElementById('next-page-url').innerText;
+		if (typeof fetch === 'undefined') {
+			// no fetch support? probably some shitty ereader browser!
+			// these requets are blocking in real browser but fine on kindle
+			var xmlhttp1 = new XMLHttpRequest();
+			xmlhttp1.open('GET', imageUrl, false);
+			xmlhttp1.send();
+			var xmlhttp2 = new XMLHttpRequest();
+			xmlhttp2.open('GET', pageUrl, false);
+			xmlhttp2.send();
+		} else {
+			fetch(imageUrl);
+			fetch(pageUrl);
+		}
 	}
 </script>
