@@ -12,7 +12,8 @@ export const load = (async ({ params, cookies, url }) => {
 	setUsersLastPosition(cookies, mangaId, chapterId, pageId);
 	refreshFavoritesCookie(cookies);
 
-	const data = await fetch(origin + routes.scrapePage(`https://chapmanganato.com/${mangaId}/${chapterId}`));
+	const remotePageUrl = `https://chapmanganato.com/${mangaId}/${chapterId}`;
+	const data = await fetch(origin + routes.scrapePage(remotePageUrl));
 	const $ = cheerioLoad(await data.text());
 	const imgUrls = $('.container-chapter-reader img')
 		.map(function () {
@@ -26,9 +27,9 @@ export const load = (async ({ params, cookies, url }) => {
 	await fetch(
 		url.origin +
 			routes.warmCache([
-				origin + routes.scrapeImage(imgUrls[pageNumber + 1]),
-				origin + routes.scrapeImage(imgUrls[pageNumber + 2]),
-				origin + routes.scrapeImage(imgUrls[pageNumber + 3]),
+				origin + routes.scrapeImage(imgUrls[pageNumber + 1], remotePageUrl),
+				origin + routes.scrapeImage(imgUrls[pageNumber + 2], remotePageUrl),
+				origin + routes.scrapeImage(imgUrls[pageNumber + 3], remotePageUrl),
 			]),
 	);
 
@@ -48,6 +49,6 @@ export const load = (async ({ params, cookies, url }) => {
 		nextChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber + 1}`, `0`),
 		previousChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `0`),
 		imgUrls,
-		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber]),
+		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber], remotePageUrl),
 	};
 }) satisfies PageServerLoad;

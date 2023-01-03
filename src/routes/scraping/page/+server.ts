@@ -6,7 +6,12 @@ import { fail } from '@sveltejs/kit';
 export const GET = (async ({ url }) => {
 	const pageUrl = url.searchParams.get('url');
 	if (!pageUrl) throw fail(400);
-	const data = await fetch(pageUrl, { headers: { Referer: new URL(pageUrl).origin } });
+	const data = await fetch(pageUrl, {
+		headers: {
+			Referer: pageUrl,
+			cookie: `content_server=server2`, // server2 seems to be faster
+		},
+	});
 
 	if (!data.ok || !data.headers.get('Content-Type')?.includes('html')) {
 		throw fail(502, { msg: `Error getting page from ${pageUrl}.\n${await data.text()}` });
