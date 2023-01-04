@@ -23,3 +23,4 @@ This is basically just an ereader friendly frontend for manganato.com. I do not 
 
 - asynchroniously trigger image fetch for the next 3 images
 - optimize pages with long width
+-
