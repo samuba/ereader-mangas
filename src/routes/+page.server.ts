@@ -7,15 +7,18 @@ let mangas = [] as ScrapedManga[];
 const lyraDb = create({
 	schema: {
 		t: 'string',
-		a: 'string'
-	}
+		a: 'string',
+	},
 });
 
 export const load = (async ({ url, cookies }) => {
 	const searchTerm = url.searchParams.get('search');
 
 	const favoriteMangaIds = getFavorites(cookies);
-	if (favoriteMangaIds.length > 0 || searchTerm) await fetchMangas(url);
+	if (favoriteMangaIds.length > 0 || searchTerm) {
+		console.log({ favoriteMangaIds, searchTerm });
+		await fetchMangas(url);
+	}
 
 	const favorites = [] as Manga[];
 	favoriteMangaIds.forEach((x) => {
@@ -28,14 +31,15 @@ export const load = (async ({ url, cookies }) => {
 		search: searchTerm,
 		searchResults: searchTerm ? search(searchTerm) : [],
 		allMangasCount: mangas.length,
-		favorites
+		favorites,
 	};
 }) satisfies PageServerLoad;
 
 async function fetchMangas(url: URL) {
 	if (mangas.length != 0) return;
-	console.time('fetch');
+	console.time('fetch mangas.json');
 	mangas = await fetch(`${url.origin}/mangas.json`).then((x) => x.json());
+	console.timeEnd('fetch mangas.json');
 
 	console.time('insertLyra');
 	for (const manga of mangas) {
@@ -43,8 +47,6 @@ async function fetchMangas(url: URL) {
 		insert(lyraDb, manga);
 	}
 	console.timeEnd('insertLyra');
-
-	console.timeEnd('fetch');
 }
 
 async function search(term: string) {
@@ -52,7 +54,7 @@ async function search(term: string) {
 	const results = searchWithLyra(lyraDb, {
 		term,
 		tolerance: 8,
-		limit: 1000
+		limit: 1000,
 	}).hits.map((x) => scrapedMangaToManga(x.document));
 	console.timeEnd('searchLyra');
 
@@ -67,6 +69,6 @@ function scrapedMangaToManga(scrapedManga: ScrapedManga) {
 		rating: scrapedManga.r,
 		title: scrapedManga.t,
 		updated: scrapedManga.u,
-		views: scrapedManga.v
+		views: scrapedManga.v,
 	};
 }

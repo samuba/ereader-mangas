@@ -8,7 +8,9 @@ const sameSite = 'strict';
 /// Favorites
 ///
 export function getFavorites(cookies: Cookies) {
-	return (cookies.get('favorites') ?? '').split('-').map((x) => x);
+	const cookieStr = cookies.get('favorites') ?? '';
+	if (!cookieStr) return [];
+	return cookieStr.split('-').map((x) => x);
 }
 
 export function addFavorite(cookies: Cookies, mangaId: string) {
@@ -18,7 +20,7 @@ export function addFavorite(cookies: Cookies, mangaId: string) {
 	cookies.set('favorites', favorites, {
 		path: `/`,
 		maxAge,
-		sameSite
+		sameSite,
 	});
 }
 
@@ -28,7 +30,7 @@ export function removeFavorite(cookies: Cookies, mangaId: string) {
 	cookies.set('favorites', favorites, {
 		path: `/`,
 		maxAge,
-		sameSite
+		sameSite,
 	});
 }
 
@@ -37,28 +39,23 @@ export function refreshFavoritesCookie(cookies: Cookies) {
 	cookies.set('favorites', cookies.get('favorites') ?? '', {
 		path: `/`,
 		maxAge,
-		sameSite
+		sameSite,
 	});
 }
 
 ///
 /// User position
 ///
-export function setUsersLastPosition(
-	cookies: Cookies,
-	mangaId: string,
-	chapterId: string,
-	pageId: string
-) {
+export function setUsersLastPosition(cookies: Cookies, mangaId: string, chapterId: string, pageId: string) {
 	cookies.set('chapter', chapterId, {
 		path: `/manga/${mangaId}`,
 		maxAge,
-		sameSite
+		sameSite,
 	});
 	cookies.set('page', pageId, {
 		path: `/manga/${mangaId}`,
 		maxAge,
-		sameSite
+		sameSite,
 	});
 }
 
