@@ -5,5 +5,4 @@ export const routes = {
 	scrapeImage: (url: string, referer: string) =>
 		`/scraping/image?url=${encodeURIComponent(url)}&referer=${encodeURIComponent(referer)}`,
 	scrapePage: (url: string) => `/scraping/page?url=${encodeURIComponent(url)}`,
-	warmCache: (urls: string[]) => `/scraping/warmCache?urls=${encodeURIComponent(JSON.stringify(urls))}`,
 };
