@@ -43,12 +43,7 @@ async function fetchMangas(url: URL) {
 	console.timeEnd('fetch mangas.json');
 
 	console.time('insertLyra');
-	insertBatch(lyraDb, mangas);
-	// for (const manga of mangas) {
-	// 	// 600ms faster than insertBatch()
-	// 	insert(lyraDb, manga);
-	// }
-
+	await insertBatch(lyraDb, mangas);
 	console.timeEnd('insertLyra');
 }
 
