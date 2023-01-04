@@ -1,7 +1,8 @@
 import type { PageServerLoad } from './$types';
 import type { Manga, ScrapedManga } from '$lib/types';
 import { getFavorites } from '$lib/cookies';
-import { create, search as searchWithLyra, insert } from '@lyrasearch/lyra';
+import { create, search as searchWithLyra, insert, insertBatch } from '@lyrasearch/lyra';
+// import fs from "fs"
 
 let mangas = [] as ScrapedManga[];
 const lyraDb = create({
@@ -42,10 +43,12 @@ async function fetchMangas(url: URL) {
 	console.timeEnd('fetch mangas.json');
 
 	console.time('insertLyra');
-	for (const manga of mangas) {
-		// 600ms faster than insertBatch()
-		insert(lyraDb, manga);
-	}
+	insertBatch(lyraDb, mangas);
+	// for (const manga of mangas) {
+	// 	// 600ms faster than insertBatch()
+	// 	insert(lyraDb, manga);
+	// }
+
 	console.timeEnd('insertLyra');
 }
 
