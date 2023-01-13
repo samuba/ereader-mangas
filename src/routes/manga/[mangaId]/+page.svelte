@@ -11,6 +11,10 @@
 
 <NavMenu />
 
+<svelte:head>
+	<title>{data.title} | Overview</title>
+</svelte:head>
+
 <div class="container">
 	<table class="margin-top: 24px;">
 		<tbody>

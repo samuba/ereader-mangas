@@ -13,6 +13,10 @@
 	let optimizeForWidePage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 </script>
 
+<svelte:head>
+	<title>Read {data.chapterId} of {data.mangaId}</title>
+</svelte:head>
+
 <div style="overflow: auto;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
