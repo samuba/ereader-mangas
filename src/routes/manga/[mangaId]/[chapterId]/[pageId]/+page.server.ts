@@ -33,11 +33,13 @@ export const load = (async ({ params, cookies, url, setHeaders }) => {
 		throw error(400, { message: 'Manga Page does not exist' });
 	}
 
+	const title = $(`[href="https://chapmanganato.com/${mangaId}"]`).first().text();
 	const chapterPrefix = chapterId.split('-')[0];
 	const chapterNumber = Number(chapterId.split('-')[1]);
 
 	setHeaders({ 'Cache-Control': `max-age=${60 * 60 * 24}, immutable` });
 	return {
+		title,
 		mangaId,
 		chapterId,
 		pageId,

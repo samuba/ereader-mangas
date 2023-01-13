@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>Read {data.chapterId} of {data.mangaId}</title>
+	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
 <div style="overflow: auto;">
