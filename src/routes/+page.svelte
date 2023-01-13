@@ -8,6 +8,10 @@
 
 <NavMenu />
 
+<svelte:head>
+	<title>eReader Mangas</title>
+</svelte:head>
+
 <main class="container">
 	<form>
 		<center>
