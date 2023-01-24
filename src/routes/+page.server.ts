@@ -34,12 +34,13 @@ async function search(term: string) {
 }
 
 async function findByIds(mangaIds: string[]) {
+	if (!mangaIds?.length) return [];
 	console.time('findById took');
 	try {
 		const results = (await mongoClient
 			.db('ereader-mangas')
 			.collection('manga-meta')
-			.find({ $or: mangaIds.map((x) => ({ id: x })) })
+			.find({ $or: mangaIds.filter((x) => x).map((x) => ({ id: x })) })
 			.toArray()) as unknown as ScrapedManga[];
 		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
