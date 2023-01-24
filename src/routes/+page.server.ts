@@ -22,8 +22,21 @@ async function search(term: string) {
 		const results = (await mongoClient
 			.db('ereader-mangas')
 			.collection('manga-meta')
-			.find({ $text: { $search: term } }, { score: { $meta: 'textScore' } })
-			.sort({ score: { $meta: 'textScore' } })
+			.aggregate([
+				{
+					$search: {
+						index: 'mangas-fuzzy',
+						text: {
+							query: term,
+							path: { wildcard: '*' },
+							fuzzy: {},
+						},
+					},
+				},
+				{
+					$limit: 50,
+				},
+			])
 			.toArray()) as unknown as ScrapedManga[];
 		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
