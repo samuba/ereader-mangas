@@ -1,11 +1,11 @@
 export type ScrapedManga = {
-	i: string; //id
-	t: string; //title
-	p: string; //picture
-	v: string; //views
-	a: string; //author
-	r: number; //rating
-	u: string; //updated
+	id: string;
+	title: string;
+	picture: string;
+	views: string;
+	author: string;
+	rating: number;
+	lastUpload: string;
 };
 
 export type Manga = {

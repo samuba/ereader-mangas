@@ -1,5 +1,7 @@
 import * as cheerio from 'npm:cheerio@1.0.0-rc.12';
-import type { ScrapedManga } from '../src/lib/types';
+import { MongoClient } from 'https://deno.land/x/mongo@v0.31.1/mod.ts';
+import { config } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
+import type { ScrapedManga } from '../src/lib/types.d.ts';
 
 console.time('finished after');
 const startTime = new Date();
@@ -37,13 +39,13 @@ while (currentPage <= lastPage) {
 		cheerioContents.forEach(($) => {
 			$('.content-genres-item').map((_, el) => {
 				mangas.push({
-					t: $(el).find('.genres-item-name').text(),
-					i: $(el).find('.genres-item-name').attr('href')!.split('/').reverse()[0].split('-')[1],
-					p: $(el).find('.genres-item-img img').attr('src')!,
-					v: $(el).find('.genres-item-view').text()!,
-					a: $(el).find('.genres-item-author').text()!,
-					r: Number($(el).find('.genres-item-rate').text()!),
-					u: $(el).find('.genres-item-time').text()!
+					title: $(el).find('.genres-item-name').text(),
+					id: $(el).find('.genres-item-name').attr('href')!.split('/').reverse()[0].split('-')[1],
+					picture: $(el).find('.genres-item-img img').attr('src')!,
+					views: $(el).find('.genres-item-view').text()!,
+					author: $(el).find('.genres-item-author').text()!,
+					rating: Number($(el).find('.genres-item-rate').text()!),
+					lastUpload: $(el).find('.genres-item-time').text()!,
 				});
 			});
 		});
@@ -60,15 +62,21 @@ console.log('\nfinished after ' + timeTillNow(startTime));
 console.log(`fetched manga pages ${firstPage}-${lastPage}`);
 
 const allMangas = JSON.parse(Deno.readTextFileSync(fileName));
-const allMangasUnique = [...new Map(allMangas.map((x) => [x['i'], x])).values()];
-Deno.writeTextFileSync(fileName, JSON.stringify(allMangasUnique, null, 2));
+const allMangasUnique = [...new Map(allMangas.map((x) => [x['id'], x])).values()] as ScrapedManga[];
 console.log(`fetched ${allMangasUnique.length} unique mangas overall`);
+
+Deno.writeTextFileSync(fileName, JSON.stringify(allMangasUnique, null, 2));
+await updateMongo(allMangasUnique);
+
+//
+// Functions
+//
 
 async function fetchContent(currentPage: number, lastPage: number) {
 	const fetchStart = new Date();
 	try {
 		const data = await fetch(`https://manganato.com/genre-all/${currentPage}?type=topview`, {
-			mode: 'no-cors'
+			mode: 'no-cors',
 		});
 		return await data.text();
 	} finally {
@@ -89,4 +97,23 @@ function timeTillNow(date: Date) {
 	if (remainingM < 1) return `${remainingS.toFixed(2)}s`;
 	if (remainingH < 1) return `${remainingM.toFixed(2)}min`;
 	return `${remainingM.toFixed(2)}h`;
+}
+
+async function updateMongo(mangas: ScrapedManga[]) {
+	console.time('updating mongo took');
+	const client = new MongoClient();
+	try {
+		await client.connect(config()['MONGO_URL_DENO']);
+		console.log('Connected to mongo');
+		const collection = client.database('ereader-mangas').collection('manga-meta');
+
+		await collection.delete({});
+		console.log(`inserting ${mangas.length} docs...`);
+		await collection.insertMany(mangas);
+	} catch (error) {
+		console.error(error);
+	} finally {
+		client.close();
+	}
+	console.timeEnd('updating mongo took');
 }

@@ -1,72 +1,75 @@
 import type { PageServerLoad } from './$types';
 import type { Manga, ScrapedManga } from '$lib/types';
 import { getFavorites } from '$lib/cookies';
-import { create, search as searchWithLyra, insert, insertBatch } from '@lyrasearch/lyra';
-// import fs from "fs"
+import { MongoClient } from 'mongodb';
+import { MONGODB_URI } from '$env/static/private';
 
-let mangas = [] as ScrapedManga[];
-const lyraDb = create({
-	schema: {
-		t: 'string',
-		a: 'string',
-	},
-});
+const mongoClient = new MongoClient(MONGODB_URI);
 
 export const load = (async ({ url, cookies }) => {
 	const searchTerm = url.searchParams.get('search');
-
 	const favoriteMangaIds = getFavorites(cookies);
-	if (favoriteMangaIds.length > 0 || searchTerm) {
-		console.log({ favoriteMangaIds, searchTerm });
-		await fetchMangas(url);
-	}
 
 	const favorites = [] as Manga[];
-	favoriteMangaIds.forEach((x) => {
-		// filling instead of map() cuz favorites could contain mangas that are no longer in catalogue
-		const manga = (mangas as ScrapedManga[]).find((y) => y.i === x);
-		if (manga) favorites.push(scrapedMangaToManga(manga));
-	});
+	for (const favoriteId of favoriteMangaIds) {
+		const manga = await findById(favoriteId);
+		if (manga) favorites.push(manga);
+	}
 
 	return {
 		search: searchTerm,
-		searchResults: searchTerm ? search(searchTerm) : [],
-		allMangasCount: mangas.length,
+		searchResults: searchTerm ? await search(searchTerm) : [],
+		allMangasCount: await mangaCount(),
 		favorites,
 	};
 }) satisfies PageServerLoad;
 
-async function fetchMangas(url: URL) {
-	if (mangas.length != 0) return;
-	console.time('fetch mangas.json');
-	mangas = await fetch(`${url.origin}/mangas.json`).then((x) => x.json());
-	console.timeEnd('fetch mangas.json');
-
-	console.time('insertLyra');
-	await insertBatch(lyraDb, mangas);
-	console.timeEnd('insertLyra');
+async function search(term: string) {
+	console.time('search took');
+	try {
+		const results = (await mongoClient
+			.db('ereader-mangas')
+			.collection('manga-meta')
+			.find({ $text: { $search: term } }, { score: { $meta: 'textScore' } })
+			.sort({ score: { $meta: 'textScore' } })
+			.toArray()) as unknown as ScrapedManga[];
+		return results.map((x) => scrapedMangaToManga(x));
+	} catch (error) {
+		console.error(error);
+	}
+	console.timeEnd('search took');
 }
 
-async function search(term: string) {
-	console.time('searchLyra');
-	const results = searchWithLyra(lyraDb, {
-		term,
-		tolerance: 8,
-		limit: 1000,
-	}).hits.map((x) => scrapedMangaToManga(x.document));
-	console.timeEnd('searchLyra');
+async function findById(mangaId: string) {
+	try {
+		const result = (await mongoClient
+			.db('ereader-mangas')
+			.collection('manga-meta')
+			.findOne({ id: mangaId })) as unknown as ScrapedManga;
+		if (!result) return undefined;
+		return scrapedMangaToManga(result);
+	} catch (error) {
+		console.error(error);
+	}
+}
 
-	return results;
+async function mangaCount() {
+	try {
+		return await mongoClient.db('ereader-mangas').collection('manga-meta').count();
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 function scrapedMangaToManga(scrapedManga: ScrapedManga) {
+	console.log({ scrapedManga });
 	return {
-		mangaId: 'manga-' + scrapedManga.i,
-		author: scrapedManga.a,
-		thumbnail: scrapedManga.p,
-		rating: scrapedManga.r,
-		title: scrapedManga.t,
-		updated: scrapedManga.u,
-		views: scrapedManga.v,
+		mangaId: 'manga-' + scrapedManga.id,
+		author: scrapedManga.author,
+		thumbnail: scrapedManga.picture,
+		rating: scrapedManga.rating,
+		title: scrapedManga.title,
+		updated: scrapedManga.lastUpload,
+		views: scrapedManga.views,
 	};
 }
