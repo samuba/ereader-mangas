@@ -36,8 +36,9 @@ async function search(term: string) {
 		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
 		console.error(error);
+	} finally {
+		console.timeEnd('search took');
 	}
-	console.timeEnd('search took');
 }
 
 async function findById(mangaId: string) {
