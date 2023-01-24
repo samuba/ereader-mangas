@@ -42,6 +42,7 @@ async function search(term: string) {
 }
 
 async function findById(mangaId: string) {
+	console.time('findById took');
 	try {
 		const result = (await mongoClient
 			.db('ereader-mangas')
@@ -51,19 +52,23 @@ async function findById(mangaId: string) {
 		return scrapedMangaToManga(result);
 	} catch (error) {
 		console.error(error);
+	} finally {
+		console.timeEnd('findById took');
 	}
 }
 
 async function mangaCount() {
+	console.time('count took');
 	try {
 		return await mongoClient.db('ereader-mangas').collection('manga-meta').count();
 	} catch (error) {
 		console.error(error);
+	} finally {
+		console.timeEnd('count took');
 	}
 }
 
 function scrapedMangaToManga(scrapedManga: ScrapedManga) {
-	console.log({ scrapedManga });
 	return {
 		mangaId: 'manga-' + scrapedManga.id,
 		author: scrapedManga.author,
