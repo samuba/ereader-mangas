@@ -8,19 +8,11 @@ const mongoClient = new MongoClient(MONGODB_URI);
 
 export const load = (async ({ url, cookies }) => {
 	const searchTerm = url.searchParams.get('search');
-	const favoriteMangaIds = getFavorites(cookies);
-
-	const favorites = [] as Manga[];
-	for (const favoriteId of favoriteMangaIds) {
-		const manga = await findById(favoriteId);
-		if (manga) favorites.push(manga);
-	}
-
 	return {
 		search: searchTerm,
 		searchResults: searchTerm ? await search(searchTerm) : [],
 		allMangasCount: await mangaCount(),
-		favorites,
+		favorites: await findByIds(getFavorites(cookies)),
 	};
 }) satisfies PageServerLoad;
 
@@ -41,15 +33,15 @@ async function search(term: string) {
 	}
 }
 
-async function findById(mangaId: string) {
+async function findByIds(mangaIds: string[]) {
 	console.time('findById took');
 	try {
-		const result = (await mongoClient
+		const results = (await mongoClient
 			.db('ereader-mangas')
 			.collection('manga-meta')
-			.findOne({ id: mangaId })) as unknown as ScrapedManga;
-		if (!result) return undefined;
-		return scrapedMangaToManga(result);
+			.find({ $or: mangaIds.map((x) => ({ id: x })) })
+			.toArray()) as unknown as ScrapedManga[];
+		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
 		console.error(error);
 	} finally {
