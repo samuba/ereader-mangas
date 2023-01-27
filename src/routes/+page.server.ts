@@ -17,6 +17,13 @@ export const load = (async ({ url, cookies }) => {
 }) satisfies PageServerLoad;
 
 async function search(term: string) {
+	if (term.startsWith('genres:')) {
+		return await findByGenres(term.split('genres:')?.[1].split(','));
+	}
+	if (term.startsWith('authors:')) {
+		return findByAuthors(term.split('authors:')?.[1].split(','));
+	}
+
 	console.time('search took');
 	try {
 		const results = (await mongoClient
@@ -36,13 +43,53 @@ async function search(term: string) {
 				{
 					$limit: 50,
 				},
+				{
+					$project: {
+						chapters: 0,
+						description: 0,
+					},
+				},
 			])
-			.toArray()) as unknown as ScrapedManga[];
+			.toArray()) as unknown as Omit<ScrapedManga, 'chapters' | 'description'>[];
 		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
 		console.error(error);
 	} finally {
 		console.timeEnd('search took');
+	}
+}
+
+async function findByAuthors(authors: string[]) {
+	if (!authors?.length) return [];
+	console.time('findByAuthors took');
+	try {
+		const results = (await mongoClient
+			.db('ereader-mangas')
+			.collection('manga-meta')
+			.find({ authors: { $all: authors } })
+			.toArray()) as unknown as ScrapedManga[];
+		return results.map((x) => scrapedMangaToManga(x));
+	} catch (error) {
+		console.error(error);
+	} finally {
+		console.timeEnd('findByAuthors took');
+	}
+}
+
+async function findByGenres(genres: string[]) {
+	if (!genres?.length) return [];
+	console.time('findByGenres took');
+	try {
+		const results = (await mongoClient
+			.db('ereader-mangas')
+			.collection('manga-meta')
+			.find({ genres: { $all: genres } })
+			.toArray()) as unknown as ScrapedManga[];
+		return results.map((x) => scrapedMangaToManga(x));
+	} catch (error) {
+		console.error(error);
+	} finally {
+		console.timeEnd('findByGenres took');
 	}
 }
 
@@ -74,14 +121,15 @@ async function mangaCount() {
 	}
 }
 
-function scrapedMangaToManga(scrapedManga: ScrapedManga) {
+function scrapedMangaToManga(scrapedManga: ScrapedManga): Manga {
 	return {
 		mangaId: 'manga-' + scrapedManga.id,
-		author: scrapedManga.author,
+		authors: scrapedManga.authors,
 		thumbnail: scrapedManga.picture,
 		rating: scrapedManga.rating,
 		title: scrapedManga.title,
 		updated: scrapedManga.lastUpload,
 		views: scrapedManga.views,
+		genres: scrapedManga.genres,
 	};
 }
