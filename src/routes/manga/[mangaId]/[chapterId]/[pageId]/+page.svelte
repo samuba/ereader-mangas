@@ -32,12 +32,20 @@
 	</a>
 </div>
 <center style="display: flex; justify-content: center; ">
-	<a href={data.previousChapterUrl} style="padding-right:1rem;">← Chapter</a>
-	<a href={data.previousPageUrl} style="padding-right:1rem;">← Page</a>
+	{#if data.previousChapterUrl}
+		<a href={data.previousChapterUrl} style="padding-right:1rem;">← Chapter</a>
+	{/if}
+	{#if data.previousPageUrl}
+		<a href={data.previousPageUrl} style="padding-right:1rem;">← Page</a>
+	{/if}
 	<a href="/" style="padding-right:1rem;">Home</a>
-	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">Overview</a>
-	<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
-	<a href={data.nextChapterUrl}>Chapter →</a>
+	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">{data.chapterId}</a>
+	{#if data.nextPageUrl}
+		<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
+	{/if}
+	{#if data.nextChapterUrl}
+		<a href={data.nextChapterUrl}>Chapter →</a>
+	{/if}
 </center>
 
 <!-- for prewarming cache. see app.html -->

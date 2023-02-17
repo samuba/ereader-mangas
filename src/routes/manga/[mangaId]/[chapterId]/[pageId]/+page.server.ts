@@ -34,8 +34,10 @@ export const load = (async ({ params, cookies, url, setHeaders }) => {
 	}
 
 	const title = $(`[href="https://chapmanganato.com/${mangaId}"]`).first().text();
-	const chapterPrefix = chapterId.split('-')[0];
-	const chapterNumber = Number(chapterId.split('-')[1]);
+	const previousChapterId = $('.navi-change-chapter-btn-prev').attr('href')?.split('/')?.reverse()?.[0];
+	const nextChapterId = $('.navi-change-chapter-btn-next').attr('href')?.split('/')?.reverse()?.[0];
+	const isLastPageOfChapter = pageNumber >= imgUrls.length - 1;
+	const isFirstPageOfChapter = pageNumber === 0;
 
 	setHeaders({ 'Cache-Control': `max-age=${60 * 60 * 24}, immutable` });
 	return {
@@ -44,16 +46,18 @@ export const load = (async ({ params, cookies, url, setHeaders }) => {
 		chapterId,
 		pageId,
 		imageNumber: pageNumber,
-		nextPageUrl:
-			pageNumber >= imgUrls.length - 1
-				? routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber + 1}`, '0')
-				: routes.readPage(mangaId, chapterId, `${pageNumber + 1}`),
-		previousPageUrl:
-			pageNumber === 0
-				? routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `${imgUrls.length - 1}`)
-				: routes.readPage(mangaId, chapterId, `${pageNumber - 1}`),
-		nextChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber + 1}`, `0`),
-		previousChapterUrl: routes.readPage(mangaId, `${chapterPrefix}-${chapterNumber - 1}`, `0`),
+		nextPageUrl: isLastPageOfChapter
+			? nextChapterId
+				? routes.readPage(mangaId, nextChapterId, '0')
+				: undefined
+			: routes.readPage(mangaId, chapterId, `${pageNumber + 1}`),
+		previousPageUrl: isFirstPageOfChapter
+			? previousChapterId
+				? routes.readPage(mangaId, previousChapterId, `${imgUrls.length - 5}`) // dont know how many imgs last chapter had, just try to not get 404
+				: undefined
+			: routes.readPage(mangaId, chapterId, `${pageNumber - 1}`),
+		nextChapterUrl: nextChapterId ? routes.readPage(mangaId, nextChapterId, `0`) : undefined,
+		previousChapterUrl: previousChapterId ? routes.readPage(mangaId, previousChapterId, `0`) : undefined,
 		imgUrls,
 		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber], remotePageUrl),
 		nextImageUrl: routes.scrapeImage(imgUrls[pageNumber + 1], remotePageUrl),
