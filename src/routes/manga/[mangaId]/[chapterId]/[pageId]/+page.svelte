@@ -6,11 +6,11 @@
 
 	export let data: PageData;
 
-	let style = 'object-fit: contain; max-width: unset; height: 100%; width: 100%';
+	let style = 'object-fit: contain; max-width: unset; width: 100%'; // this is the style that kindle will use
 
 	onMount(() => {
 		imgElement.onload = () => {
-			// does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
+			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
 			isWideImage = imgElement.width > imgElement.height;
 			style = calculateStyle(isWideImage);
@@ -58,8 +58,8 @@
 
 <div style="overflow: auto; display: flex; justify-content: center;">
 	<a href={data.nextPageUrl}>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<center>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<img id="image" bind:this={imgElement} src={data.currentImageUrl} {style} />
 		</center>
 	</a>
