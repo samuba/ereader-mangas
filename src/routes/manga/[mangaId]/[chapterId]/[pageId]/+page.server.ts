@@ -33,7 +33,8 @@ export const load = (async ({ params, cookies, url, setHeaders }) => {
 		throw error(400, { message: 'Manga Page does not exist' });
 	}
 
-	const title = $(`[href="https://chapmanganato.com/${mangaId}"]`).first().text();
+	let title = $(`[href="https://chapmanganato.com/${mangaId}"]`).first().text();
+	title = title === '' ? $(`[href="https://manganato.com/${mangaId}"]`).first().text() : '';
 	const previousChapterId = $('.navi-change-chapter-btn-prev').attr('href')?.split('/')?.reverse()?.[0];
 	const nextChapterId = $('.navi-change-chapter-btn-next').attr('href')?.split('/')?.reverse()?.[0];
 	const isLastPageOfChapter = pageNumber >= imgUrls.length - 1;
