@@ -6,12 +6,14 @@
 
 	export let data: PageData;
 
+	let style = 'object-fit: contain; max-width: unset; height: 100%; width: 100%';
+
 	onMount(() => {
 		imgElement.onload = () => {
 			// does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
 			isWideImage = imgElement.width > imgElement.height;
-			imgElement.style = calculateStyle(isWideImage);
+			style = calculateStyle(isWideImage);
 
 			scrollElement.scrollIntoView(); // cuz mangas read from right to left
 		};
@@ -58,12 +60,7 @@
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<center style="display: inline-block;">
-			<img
-				id="image"
-				bind:this={imgElement}
-				src={data.currentImageUrl}
-				style="object-fit: contain; max-width: unset; height: 100%; width: 100%"
-			/>
+			<img id="image" bind:this={imgElement} src={data.currentImageUrl} {style} />
 		</center>
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
