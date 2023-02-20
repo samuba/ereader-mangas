@@ -7,7 +7,14 @@
 	export let data: PageData;
 
 	onMount(() => {
-		imgElement.onload = () => (isWideImage = imgElement.width > imgElement.height);
+		imgElement.onload = () => {
+			// does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
+
+			isWideImage = imgElement.width > imgElement.height;
+			imgElement.style = calculateStyle(isWideImage);
+
+			scrollElement.scrollIntoView(); // cuz mangas read from right to left
+		};
 	});
 
 	function tailwindCssScreenSize() {
@@ -39,6 +46,7 @@
 	const isBigScreen = () => document?.documentElement?.clientWidth >= 768;
 
 	let imgElement: HTMLImageElement;
+	let scrollElement: HTMLElement;
 	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 </script>
 
@@ -46,13 +54,19 @@
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-<div style="overflow: auto;">
+<div style="overflow: auto; display: flex">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<center>
-			<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={calculateStyle(isWideImage)} />
+		<center style="display: inline-block;">
+			<img
+				id="image"
+				bind:this={imgElement}
+				src={data.currentImageUrl}
+				style="object-fit: contain; max-width: unset; height: 100%; width: 100%"
+			/>
 		</center>
 	</a>
+	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
 <center style="display: flex; justify-content: center; ">
 	{#if data.previousChapterUrl}
