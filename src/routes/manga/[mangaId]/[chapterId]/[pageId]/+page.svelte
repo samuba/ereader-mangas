@@ -46,11 +46,6 @@
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-{browser ? document?.documentElement?.clientWidth : ''}
-{tailwindCssScreenSize()}
-phone: {isPhone()}
-wideImage: {isWideImage}
-
 <div style="overflow: auto;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
