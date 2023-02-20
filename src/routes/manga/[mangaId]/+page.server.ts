@@ -16,6 +16,12 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 	console.time('parse manga page');
 	const $ = cheerioLoad(page);
 	const title = $('h1').text();
+	const alternativeTitles = $('.info-alternative')
+		.parent()
+		.next()
+		.text()
+		.split(';')
+		.map((x) => x.trim());
 	const thumbnail = $('.info-image img').attr('src');
 	const chapters = $('.row-content-chapter li')
 		.map((_, el) => {
@@ -62,6 +68,7 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 	return {
 		mangaId,
 		title,
+		alternativeTitles,
 		chapters,
 		thumbnail,
 		userPosition: {

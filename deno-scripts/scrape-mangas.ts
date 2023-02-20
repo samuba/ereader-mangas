@@ -4,8 +4,6 @@ import { config } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
 import type { ScrapedManga } from '../src/lib/types.d.ts';
 
 const startTime = new Date();
-const fileName = './static/mangas.json';
-
 const allMangasUnique2 = await fetchShallowMangaList();
 const allDetailedMangas = [] as ScrapedManga[];
 const batchSize = 120;
@@ -38,8 +36,9 @@ Deno.exit();
 //
 
 async function fetchShallowMangaList(): Promise<ScrapedManga[]> {
+	console.log("fetchShallowMangaList...")
 	const fileName = "shallow.json"
-	if (await fileExists(fileName)) return JSON.parse(Deno.readTextFileSync(fileName))
+	// if (await fileExists(fileName)) return JSON.parse(Deno.readTextFileSync(fileName))
 	console.time("fetchShallowMangaList took")
 	const firstPage = 1;
 	let currentPage = firstPage;
@@ -76,6 +75,7 @@ async function fetchShallowMangaList(): Promise<ScrapedManga[]> {
 						title: $(el).find('.genres-item-name').text(),
 						picture: $(el).find('.genres-item-img img').attr('src')!,
 						views: $(el).find('.genres-item-view').text()!,
+						viewsNumber: viewsToNumber($(el).find('.genres-item-view').text()!),
 						author: $(el).find('.genres-item-author').text()!,
 						rating: Number($(el).find('.genres-item-rate').text()!),
 						lastUpload: $(el).find('.genres-item-time').text()!,
@@ -93,6 +93,14 @@ async function fetchShallowMangaList(): Promise<ScrapedManga[]> {
 	Deno.writeTextFile(fileName, JSON.stringify(result, null, 2));
 	console.timeEnd("fetchShallowMangaList took")
 	return result;
+}
+
+function viewsToNumber(views: string) {
+	// for e.g.  45M, 23K, ...
+	if (views === null || views === undefined) return undefined;
+	if (views.includes('K')) return Number(views.split('K')[0]) * 1_000;
+	if (views.includes('M')) return Number(views.split('M')[0]) * 1_000_000;
+	return Number(views);
 }
 
 async function fileExists(filename: string): Promise<boolean> {
@@ -117,16 +125,8 @@ async function getMangaDetails(manga: ScrapedManga, retries = 0) {
 		const status = $('.info-status').parent().next().text();
 		const authors = $('.info-author').parent().next().children().map((_, el) => $(el).text()).toArray();
 		const genres = $('.info-genres').parent().next().children().map((_, el) => $(el).text()).toArray();
-		const alternativeTitles = $('.info-alternative').parent().next().text().split(';').map((x) => x.trim());
+		const alternativeTitles = $('.info-alternative').parent().next().text().split(';').map((x) => x.trim().replace(/\(.*\)/, '')); // remove  "... (english)"
 		const description = $('.panel-story-info-description').text().replace('Description :', '').trim();
-		const chapters = $('.row-content-chapter')
-			.find('.a-h')
-			.map((_, el) => ({
-				name: $(el).find('.chapter-name').text(),
-				time: $(el).find('.chapter-time').text(),
-				slug: $(el).find('a').attr('href').split('/').reverse()[0],
-			}))
-			.toArray();
 		delete manga.author;
 		return {
 			...manga,
@@ -135,7 +135,6 @@ async function getMangaDetails(manga: ScrapedManga, retries = 0) {
 			genres,
 			alternativeTitles,
 			description,
-			chapters,
 		};
 	} catch (error) {
 		if (retries < 19) {
@@ -184,12 +183,10 @@ async function updateMongo(mangas: ScrapedManga[]) {
 			processedItems += batch.length
 			console.log(`inserted ${processedItems}`)
 		} while(processedItems < mangas.length)
-
-		console.log(`inserting ${mangas.length} docs...`);
 	} catch (error) {
 		console.error(error);
 	} finally {
 		client.close();
+		console.timeEnd(`inserting ${mangas.length} to mongo took`);
 	}
-	console.timeEnd(`inserting ${mangas.length} to mongo took`);
 }

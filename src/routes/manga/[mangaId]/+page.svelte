@@ -23,22 +23,19 @@
 					<img src={data.thumbnail} style="margin-right: 24px;" alt="" />
 				</td>
 				<td>
-					<h1 style="margin-bottom: 12px;">
-						{data.title}
-					</h1>
+					<hgroup style="margin-bottom: 12px;">
+						<h1>{data.title}</h1>
+						<h6 style="font-size: 12px">{data.alternativeTitles.join(', ')}</h6>
+					</hgroup>
 					<table>
 						<tbody>
 							{#each data.infoElements as info}
 								<tr>
-									<td>
-										{info.label}:
-									</td>
+									<td>{info.label}:</td>
 									{#if info.html.startsWith('<td')}
 										{@html info.html}
 									{:else}
-										<td>
-											{@html info.html}
-										</td>
+										<td>{@html info.html}</td>
 									{/if}
 								</tr>
 							{/each}

@@ -24,6 +24,7 @@ async function search(term: string) {
 		return findByAuthors(term.split('authors:')?.[1].split(','));
 	}
 
+	console.log(`searching for: ${term}`);
 	console.time('search took');
 	try {
 		const results = (await mongoClient
@@ -33,24 +34,51 @@ async function search(term: string) {
 				{
 					$search: {
 						index: 'mangas-fuzzy',
-						text: {
-							query: term,
-							path: { wildcard: '*' },
-							fuzzy: {},
+						compound: {
+							should: [
+								{
+									text: {
+										query: term,
+										path: 'title',
+										score: {
+											boost: {
+												// path: 'viewsNumber',
+												// undefined: 1,
+												value: 2,
+											},
+										},
+									},
+								},
+								{
+									text: {
+										query: term,
+										path: 'alternativeTitles',
+										score: {
+											boost: {
+												// path: 'viewsNumber',
+												// undefined: 1,
+												value: 2,
+											},
+										},
+									},
+								},
+								{
+									text: {
+										query: term,
+										path: 'authors',
+										fuzzy: {},
+									},
+								},
+							],
 						},
 					},
 				},
 				{
 					$limit: 50,
 				},
-				{
-					$project: {
-						chapters: 0,
-						description: 0,
-					},
-				},
 			])
-			.toArray()) as unknown as Omit<ScrapedManga, 'chapters' | 'description'>[];
+			.toArray()) as unknown as Omit<ScrapedManga, 'description'>[];
+		console.log({ results });
 		return results.map((x) => scrapedMangaToManga(x));
 	} catch (error) {
 		console.error(error);

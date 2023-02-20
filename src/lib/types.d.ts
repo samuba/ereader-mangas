@@ -9,7 +9,6 @@ export type ScrapedManga = {
 	status: string;
 	genres: string[];
 	alternativeTitles: string[];
-	chapters: Chapter[];
 };
 
 export type Chapter = {

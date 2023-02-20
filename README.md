@@ -21,5 +21,5 @@ This is basically just an ereader friendly frontend for manganato.com. I do not 
 
 ## TODO
 
-- asynchroniously trigger image fetch for the next 3 images
 - optimize pages with long width
+- add pagination for long searches
