@@ -59,7 +59,7 @@
 <div style="overflow: auto; display: flex; justify-content: center;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<center style="display: inline-block;">
+		<center>
 			<img id="image" bind:this={imgElement} src={data.currentImageUrl} {style} />
 		</center>
 	</a>
