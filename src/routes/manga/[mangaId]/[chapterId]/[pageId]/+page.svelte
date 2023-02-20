@@ -56,7 +56,7 @@
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-<div style="overflow: auto; display: flex">
+<div style="overflow: auto; display: flex; justify-content: center;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<center style="display: inline-block;">
