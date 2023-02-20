@@ -43,7 +43,7 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 				.first()
 				.text()
 				.split('-')
-				.map((x) => `<a href="/?search=${encodeURIComponent(x)}">${x}</a>`)
+				.map((x) => `<a href="/?search=authors:${encodeURIComponent(x.trim())}">${x}</a>`)
 				.join(' - '),
 		},
 		{
@@ -56,7 +56,14 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 		},
 		{
 			label: 'Genres',
-			html: $('.info-genres').parent().siblings().first().toString(),
+			html: $('.info-genres')
+				.parent()
+				.siblings()
+				.first()
+				.text()
+				.split('-')
+				.map((x) => `<a href="/?search=genres:${encodeURIComponent(x.trim())}">${x}</a>`)
+				.join(' - '),
 		},
 		{
 			label: 'Views',
