@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -6,29 +7,56 @@
 	export let data: PageData;
 
 	onMount(() => {
-		imgElement.onload = () => (optimizeForWidePage = imgElement.width > imgElement.height);
+		imgElement.onload = () => (isWideImage = imgElement.width > imgElement.height);
 	});
 
+	function tailwindCssScreenSize() {
+		if (!browser) return '?';
+		if (document?.documentElement?.clientWidth >= 1536) return '2xl';
+		if (document?.documentElement?.clientWidth >= 1280) return 'xl';
+		if (document?.documentElement?.clientWidth >= 1024) return 'lg';
+		if (document?.documentElement?.clientWidth >= 768) return 'md';
+		if (document?.documentElement?.clientWidth >= 640) return 'sm';
+		return 'sm';
+	}
+
+	function calculateStyle(isWideImage: boolean) {
+		if (!browser) return '';
+		if (isPhone()) {
+			return `object-fit: unset;  max-width: unset;  height: ${window.innerHeight}px;  width: unset;  overflow: auto;`;
+		}
+		if (isBigScreen()) {
+			if (isWideImage) {
+				return `object-fit: contain;  max-width: unset;  height: ${window.innerHeight}px;  width: 100%;  overflow: auto;`;
+			} else {
+				return `object-fit: contain;  max-width: 45rem;  height: 100%;  width: 100%`;
+			}
+		}
+		return `object-fit: contain; max-width: unset; height: 100%; width: 100%`;
+	}
+
+	const isPhone = () => tailwindCssScreenSize() === 'sm';
+	const isBigScreen = () => document?.documentElement?.clientWidth >= 768;
+
 	let imgElement: HTMLImageElement;
-	let optimizeForWidePage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
+	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 </script>
 
 <svelte:head>
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
+{browser ? document?.documentElement?.clientWidth : ''}
+{tailwindCssScreenSize()}
+phone: {isPhone()}
+wideImage: {isWideImage}
+
 <div style="overflow: auto;">
 	<a href={data.nextPageUrl}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<img
-			id="image"
-			bind:this={imgElement}
-			src={data.currentImageUrl}
-			style="object-fit: contain; max-width: unset;"
-			style:height={optimizeForWidePage ? window.innerHeight + 'px' : '100%'}
-			style:width={optimizeForWidePage ? 'unset' : '100%'}
-			alt="n"
-		/>
+		<center>
+			<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={calculateStyle(isWideImage)} />
+		</center>
 	</a>
 </div>
 <center style="display: flex; justify-content: center; ">
