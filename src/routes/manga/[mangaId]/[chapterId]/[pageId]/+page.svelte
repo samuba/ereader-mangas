@@ -7,7 +7,7 @@
 
 	export let data: PageData;
 
-	let style = 'object-fit: contain; max-width: unset; width: 100%; vertical-align: bottom; '; // this is the style that kindle will use
+	let style = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
 
 	onMount(() => {
 		imgElement.onload = () => {
