@@ -3,6 +3,7 @@
 	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import PageButton from './PageButton.svelte';
 
 	export let data: PageData;
 
@@ -65,49 +66,15 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<center style="margin-top: 1rem; margin-bottom: 1rem; font-size: 10pt;">
-	<div style="display: inline-block; padding-right:1rem;">
-		{#if data.previousChapterUrl}
-			<a href={data.previousChapterUrl} title="previous chapter">
-				<button style="min-width: 2rem;"> « </button>
-			</a>
-		{:else}
-			<button disabled title="previous chapter not available"> «</button>
-		{/if}
-	</div>
-	<div style="display: inline-block; padding-right:1rem;">
-		{#if data.previousPageUrl}
-			<a href={data.previousPageUrl} title="previous page">
-				<button style="min-width: 2rem;">‹</button>
-			</a>
-		{:else}
-			<button disabled title="previous page not available">‹</button>
-		{/if}
-	</div>
-	<a href="/" style="display: inline-block; padding-right:1rem;">
-		<button class="outline">Home</button>
-	</a>
-	<a href={`/manga/${data.mangaId}`} style="display: inline-block; padding-right:1rem;" title="manga overview">
-		<button class="outline">{data.chapterId}</button>
-	</a>
-	<div style="display: inline-block; padding-right:1rem;">
-		{#if data.nextPageUrl}
-			<a href={data.nextPageUrl} title="next page">
-				<button style="font-size: 12pt;">›</button>
-			</a>
-		{:else}
-			<button disabled title="next page not available"> ›</button>
-		{/if}
-	</div>
-	<div style="display: inline-block; ">
-		{#if data.nextChapterUrl}
-			<a href={data.nextChapterUrl} title="next chapter">
-				<button style="font-size: 10pt;"> »</button>
-			</a>
-		{:else}
-			<button disabled title="next chapter not available"> »</button>
-		{/if}
-	</div>
+<center style="margin-top: 1rem; margin-bottom: 1rem;">
+	<PageButton url={data.previousPageUrl} title="previous page">«</PageButton>
+	<PageButton url={data.previousChapterUrl} title="previous chapter">‹</PageButton>
+
+	<PageButton url="/" title="next page" class="outline">Home</PageButton>
+	<PageButton url={`/manga/${data.mangaId}`} title="next page" class="outline">{data.chapterId}</PageButton>
+
+	<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
+	<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
 </center>
 
 <!-- for prewarming cache. see app.html -->
