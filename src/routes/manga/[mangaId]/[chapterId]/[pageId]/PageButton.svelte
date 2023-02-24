@@ -18,9 +18,9 @@
 </div>
 
 <style>
-	@media (hover) {
+	@media (color: 0) {
 		.butt {
-			margin-top: 2rem;
+			margin-top: 5rem;
 			background-color: red;
 		}
 	}
