@@ -3,7 +3,7 @@
 	export let title: string;
 </script>
 
-<div style="display: inline-block; margin-right: 0.5rem; margin-left: 0.5rem;">
+<div style="display: inline-block; margin-right: 1rem; margin-left: 1rem;">
 	{#if url}
 		<a href={url} {title}>
 			<button class={$$props.class + ' butt'}>
