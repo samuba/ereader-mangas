@@ -66,7 +66,7 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<div style="display: table; margin: 0 auto; ">
+<center style="margin-bottom: 1rem;">
 	<PageButton url={data.previousPageUrl} title="previous page">«</PageButton>
 	<PageButton url={data.previousChapterUrl} title="previous chapter">‹</PageButton>
 
@@ -75,7 +75,7 @@
 
 	<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
 	<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
-</div>
+</center>
 
 <!-- for prewarming cache. see app.html -->
 <span id="next-page-url" style="display: none">{data.nextPageUrl}</span>

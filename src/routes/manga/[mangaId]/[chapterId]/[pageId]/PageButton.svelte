@@ -11,12 +11,7 @@
 			</button>
 		</a>
 	{:else}
-		<button
-			style="font-size: 10pt; padding-right: 1rem; padding-left: 1rem;"
-			class={$$props.class}
-			disabled
-			title={`${title} not available`}
-		>
+		<button disabled class={$$props.class + ' butt'} title={`${title} not available`}>
 			<slot />
 		</button>
 	{/if}
