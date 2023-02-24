@@ -65,20 +65,46 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<center style="display: flex; justify-content: center; ">
-	{#if data.previousChapterUrl}
-		<a href={data.previousChapterUrl} style="padding-right:1rem;">← Chapter</a>
-	{/if}
-	{#if data.previousPageUrl}
-		<a href={data.previousPageUrl} style="padding-right:1rem;">← Page</a>
-	{/if}
-	<a href="/" style="padding-right:1rem;">Home</a>
-	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;">{data.chapterId}</a>
-	{#if data.nextPageUrl}
-		<a href={data.nextPageUrl} style="padding-right:1rem;">Page →</a>
-	{/if}
+<center style="display: flex; justify-content: center; margin-top: 1rem; ">
+	<div style="padding-right:1rem;">
+		{#if data.previousChapterUrl}
+			<a href={data.previousChapterUrl} title="previous chapter">
+				<button> ←← </button>
+			</a>
+		{:else}
+			<button disabled title="previous chapter not available"> ←←</button>
+		{/if}
+	</div>
+	<div style="padding-right:1rem;">
+		{#if data.previousPageUrl}
+			<a href={data.previousPageUrl} title="previous page"><button>←</button></a>
+		{:else}
+			<button disabled title="previous page not available">←</button>
+		{/if}
+	</div>
+	<a href="/" style="padding-right:1rem;">
+		<button class="outline">Home</button>
+	</a>
+	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;" title="manga overview">
+		<button class="outline">{data.chapterId}</button>
+	</a>
+	<div style="padding-right:1rem;">
+		{#if data.nextPageUrl}
+			<a href={data.nextPageUrl} title="next page">
+				<button>→</button>
+			</a>
+		{:else}
+			<button disabled title="next page not available"> →</button>
+		{/if}
+	</div>
 	{#if data.nextChapterUrl}
-		<a href={data.nextChapterUrl}>Chapter →</a>
+		<a href={data.nextChapterUrl} title="next chapter">
+			<button> →→</button>
+		</a>
+	{:else}
+		<div>
+			<button disabled title="next chapter not available"> →→</button>
+		</div>
 	{/if}
 </center>
 
