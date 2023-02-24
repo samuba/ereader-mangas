@@ -32,7 +32,7 @@
 	"type": "module",
 	"dependencies": {
 		"@lyrasearch/lyra": "^0.3.1",
-		"@picocss/pico": "^1.5.6",
+		"@picocss/pico": "^1.5.7",
 		"axios": "^1.2.2",
 		"cheerio": "^1.0.0-rc.12",
 		"got": "^12.5.3",
