@@ -1,25 +1,24 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { switchAllClassesToNoEreader } from '$lib/common';
-	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import PageButton from './PageButton.svelte';
 
 	export let data: PageData;
 
-	let style = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
-
+	let imgStyle = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
 	onMount(() => {
 		imgElement.onload = () => {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
-			isWideImage = imgElement.width > imgElement.height;
-			style = calculateStyle(isWideImage);
-
 			scrollElement.scrollIntoView(); // cuz mangas read from right to left
+
+			isWideImage = imgElement.width > imgElement.height;
+			imgStyle = calculateStyle(isWideImage);
 		};
 
+		imgStyle = calculateStyle(false);
 		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 	});
 
@@ -36,7 +35,8 @@
 	function calculateStyle(isWideImage: boolean) {
 		if (!browser) return '';
 		if (isPhone()) {
-			return `object-fit: unset;  max-width: unset;  height: ${window.innerHeight}px;  width: unset;  overflow: auto;`;
+			imgElement.height = window.innerHeight;
+			return 'overflow-x: auto; max-width: none;';
 		}
 		if (isBigScreen()) {
 			if (isWideImage) {
@@ -64,7 +64,9 @@
 	<a href={data.nextPageUrl}>
 		<center>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<img id="image" bind:this={imgElement} src={data.currentImageUrl} {style} />
+			<div style="overflow: auto;">
+				<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={imgStyle} />
+			</div>
 		</center>
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
@@ -98,5 +100,8 @@
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
 		width: 28rem;
+	}
+
+	.img-phone {
 	}
 </style>

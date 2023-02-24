@@ -3,9 +3,10 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
+		"removeImgStylesFromPico": "node removeImgStylesFromPico.js",
+		"dev": "npm run removeImgStylesFromPico && vite dev",
+		"build": "npm run removeImgStylesFromPico && vite build",
+		"preview": "npm run removeImgStylesFromPico && vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
