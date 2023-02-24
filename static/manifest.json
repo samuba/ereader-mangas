@@ -11,7 +11,7 @@
 		}
 	],
 	"background_color": "#141e26",
-	"display": "fullscreen",
+	"display": "standalone",
 	"scope": "/",
 	"theme_color": "#1095c1",
 	"description": "All the mangas you want, beautifully displayed on your ereader"
