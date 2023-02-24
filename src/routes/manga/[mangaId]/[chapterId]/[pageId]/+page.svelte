@@ -21,11 +21,12 @@
 			imgContainer.scrollLeft = imgContainer.clientWidth;
 		};
 
+		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
+
+		imgStyle = calculateStyle(false);
 		if (imgContainer?.clientWidth) {
 			imgContainer.scrollLeft = imgContainer.clientWidth;
 		}
-		imgStyle = calculateStyle(false);
-		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 	});
 
 	function tailwindCssScreenSize() {
