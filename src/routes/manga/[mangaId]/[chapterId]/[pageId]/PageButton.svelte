@@ -18,9 +18,10 @@
 </div>
 
 <style>
-	@media (monochrome: 0) {
+	@media (hover) {
 		.butt {
-			margin-top: 1rem;
+			margin-top: 2rem;
+			background-color: red;
 		}
 	}
 	@media (monochrome) {
