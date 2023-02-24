@@ -69,7 +69,7 @@
 	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.previousChapterUrl}
 			<a href={data.previousChapterUrl} title="previous chapter">
-				<button> « </button>
+				<button style="min-width: 2rem;"> « </button>
 			</a>
 		{:else}
 			<button disabled title="previous chapter not available"> «</button>
@@ -77,7 +77,9 @@
 	</div>
 	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.previousPageUrl}
-			<a href={data.previousPageUrl} title="previous page"><button>‹</button></a>
+			<a href={data.previousPageUrl} title="previous page">
+				<button style="min-width: 2rem;">‹</button>
+			</a>
 		{:else}
 			<button disabled title="previous page not available">‹</button>
 		{/if}
@@ -91,7 +93,7 @@
 	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.nextPageUrl}
 			<a href={data.nextPageUrl} title="next page">
-				<button>›</button>
+				<button style="font-size: 14pt;">›</button>
 			</a>
 		{:else}
 			<button disabled title="next page not available"> ›</button>
@@ -100,7 +102,7 @@
 	<div style="display: inline-block; ">
 		{#if data.nextChapterUrl}
 			<a href={data.nextChapterUrl} title="next chapter">
-				<button> »</button>
+				<button style="font-size: 14pt;"> »</button>
 			</a>
 		{:else}
 			<button disabled title="next chapter not available"> »</button>
