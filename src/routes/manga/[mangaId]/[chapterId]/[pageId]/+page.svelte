@@ -18,19 +18,27 @@
 		imgElement.onload = function () {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
+			scrollImageToTheRight();
+
 			isWideImage = this.width > this.height;
 			imgStyle = calculateStyle(isWideImage);
 		};
 
 		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 
+		scrollImageToTheRight();
+
 		imgStyle = calculateStyle(false);
 
 		respondToVisibility(imgElement, () => {
 			// did not find a better way to trigger this reliably on phones
-			if (imgContainer?.clientWidth) imgContainer.scrollLeft = imgContainer.clientWidth;
+			scrollImageToTheRight();
 		});
 	});
+
+	function scrollImageToTheRight() {
+		if (imgContainer?.clientWidth) imgContainer.scrollLeft = imgContainer.clientWidth;
+	}
 
 	function respondToVisibility(element, callback) {
 		var options = {
