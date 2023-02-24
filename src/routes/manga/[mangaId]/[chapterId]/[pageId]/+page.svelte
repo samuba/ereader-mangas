@@ -70,7 +70,7 @@
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
 <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
-	<div class="buttons-ereader">
+	<center class="buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
 		<PageButton url={data.previousPageUrl} title="previous chapter">‹</PageButton>
 
@@ -79,7 +79,7 @@
 
 		<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
 		<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
-	</div>
+	</center>
 </div>
 
 <div style="display: none !important;" class="buttons-noereader">
@@ -92,13 +92,11 @@
 
 <style>
 	.buttons-ereader {
-		display: flex;
-		justify-content: center;
+		/* center tag already centers */
 	}
 	.buttons-noereader {
 		display: flex;
-		justify-content: space-evenly;
-		/* max-width: 30rem; */
+		justify-content: space-evenly; /* important for phones */
 		width: 28rem;
 	}
 </style>
