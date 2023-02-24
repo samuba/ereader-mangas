@@ -65,7 +65,7 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<center style="margin-top: 1rem; ">
+<center style="margin-top: 1rem; margin-bottom: 1rem; ">
 	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.previousChapterUrl}
 			<a href={data.previousChapterUrl} title="previous chapter">
