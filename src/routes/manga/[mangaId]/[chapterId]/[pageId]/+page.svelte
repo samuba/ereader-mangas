@@ -12,22 +12,39 @@
 	let imgContainer: HTMLElement;
 	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
+	let observer = null;
+
 	onMount(() => {
 		imgElement.onload = function () {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
-			imgContainer.scrollLeft = imgContainer.clientWidth;
 			isWideImage = this.width > this.height;
 			imgStyle = calculateStyle(isWideImage);
 		};
 
 		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 
-		if (imgContainer?.clientWidth) {
-			imgContainer.scrollLeft = imgContainer.clientWidth;
-		}
 		imgStyle = calculateStyle(false);
+
+		respondToVisibility(imgElement, () => {
+			// did not find a better way to trigger this reliably on phones
+			if (imgContainer?.clientWidth) imgContainer.scrollLeft = imgContainer.clientWidth;
+		});
 	});
+
+	function respondToVisibility(element, callback) {
+		var options = {
+			root: document.documentElement,
+		};
+
+		var observer = new IntersectionObserver((entries, observer) => {
+			entries.forEach((entry) => {
+				callback(entry.intersectionRatio > 0);
+			});
+		}, options);
+
+		observer.observe(element);
+	}
 
 	function tailwindCssScreenSize() {
 		if (!browser) return '?';
