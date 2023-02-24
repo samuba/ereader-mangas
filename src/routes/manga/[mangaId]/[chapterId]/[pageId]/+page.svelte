@@ -8,13 +8,14 @@
 	export let data: PageData;
 
 	let imgStyle = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
+	let imgElement: HTMLImageElement;
+	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
+
 	onMount(() => {
-		imgElement.onload = () => {
+		imgElement.onload = function () {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
-			scrollElement.scrollIntoView(); // cuz mangas read from right to left
-
-			isWideImage = imgElement.width > imgElement.height;
+			isWideImage = this.width > this.height;
 			imgStyle = calculateStyle(isWideImage);
 		};
 
@@ -35,8 +36,7 @@
 	function calculateStyle(isWideImage: boolean) {
 		if (!browser) return '';
 		if (isPhone()) {
-			imgElement.height = window.innerHeight;
-			return 'overflow-x: auto; max-width: none;';
+			return 'overflow-x: auto; height: 100vh;';
 		}
 		if (isBigScreen()) {
 			if (isWideImage) {
@@ -50,27 +50,22 @@
 
 	const isPhone = () => tailwindCssScreenSize() === 'sm';
 	const isBigScreen = () => document?.documentElement?.clientWidth >= 768;
-
-	let imgElement: HTMLImageElement;
-	let scrollElement: HTMLElement;
-	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 </script>
 
 <svelte:head>
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-<div style="overflow: auto; display: flex; justify-content: center;">
-	<a href={data.nextPageUrl}>
-		<center>
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<div style="overflow: auto;">
-				<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={imgStyle} />
-			</div>
-		</center>
-	</a>
-	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
-</div>
+<!-- <div style="overflow: auto; display: flex; justify-content: center;"> -->
+<a href={data.nextPageUrl}>
+	<center>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div style="overflow: auto;">
+			<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={imgStyle} />
+		</div>
+	</center>
+</a>
+<!-- </div> -->
 <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
 	<center class="buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
