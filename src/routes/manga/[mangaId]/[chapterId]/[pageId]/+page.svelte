@@ -16,17 +16,17 @@
 		imgElement.onload = function () {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
+			imgContainer.scrollLeft = imgContainer.clientWidth;
 			isWideImage = this.width > this.height;
 			imgStyle = calculateStyle(isWideImage);
-			imgContainer.scrollLeft = imgContainer.clientWidth;
 		};
 
 		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 
-		imgStyle = calculateStyle(false);
 		if (imgContainer?.clientWidth) {
 			imgContainer.scrollLeft = imgContainer.clientWidth;
 		}
+		imgStyle = calculateStyle(false);
 	});
 
 	function tailwindCssScreenSize() {
