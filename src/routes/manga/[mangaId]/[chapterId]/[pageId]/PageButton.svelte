@@ -18,7 +18,7 @@
 </div>
 
 <style>
-	@media not (monochrome) {
+	@media (monochrome: 0) {
 		.butt {
 			margin-top: 1rem;
 		}
