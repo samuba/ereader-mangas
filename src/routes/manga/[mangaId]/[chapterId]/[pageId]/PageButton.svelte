@@ -6,7 +6,7 @@
 <div style="display: inline-block; margin-right: 0.5rem; margin-left: 0.5rem;">
 	{#if url}
 		<a href={url} {title}>
-			<button style="font-size: 10pt; padding-right: 1rem; padding-left: 1rem;" class={$$props.class}>
+			<button class={$$props.class + ' butt'}>
 				<slot />
 			</button>
 		</a>
@@ -23,4 +23,9 @@
 </div>
 
 <style>
+	.butt {
+		font-size: 10pt;
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
 </style>
