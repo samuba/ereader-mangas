@@ -93,7 +93,7 @@
 	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.nextPageUrl}
 			<a href={data.nextPageUrl} title="next page">
-				<button style="font-size: 14pt;">›</button>
+				<button style="font-size: 12pt;">›</button>
 			</a>
 		{:else}
 			<button disabled title="next page not available"> ›</button>
@@ -102,7 +102,7 @@
 	<div style="display: inline-block; ">
 		{#if data.nextChapterUrl}
 			<a href={data.nextChapterUrl} title="next chapter">
-				<button style="font-size: 14pt;"> »</button>
+				<button style="font-size: 10pt;"> »</button>
 			</a>
 		{:else}
 			<button disabled title="next chapter not available"> »</button>
