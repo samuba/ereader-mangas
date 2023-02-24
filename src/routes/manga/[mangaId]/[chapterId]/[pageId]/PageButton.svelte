@@ -3,19 +3,6 @@
 
 	export let url: string | undefined;
 	export let title: string;
-
-	onMount(() => {
-		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
-	});
-
-	function switchAllClassesToNoEreader() {
-		const all = document.getElementsByTagName('*');
-		for (var i = 0, max = all.length; i < max; i++) {
-			const element = all[i];
-			if (!element.className) continue;
-			element.className = element.className.replace(/-ereader/g, '-noereader');
-		}
-	}
 </script>
 
 <div class="wrapper-ereader" style="display: inline-block;">
@@ -38,8 +25,8 @@
 		margin-left: 1rem;
 	}
 	.wrapper-noereader {
-		margin-right: 0.5rem;
-		margin-left: 0.5rem;
+		/* margin-right: 0.5rem;
+		margin-left: 0.5rem; */
 	}
 
 	.button-ereader {

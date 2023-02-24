@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { switchAllClassesToNoEreader } from '$lib/common';
 	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -18,6 +19,8 @@
 
 			scrollElement.scrollIntoView(); // cuz mangas read from right to left
 		};
+
+		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 	});
 
 	function tailwindCssScreenSize() {
@@ -65,18 +68,37 @@
 		</center>
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
-</div> 
-<center style="margin-bottom: 1rem;">
-	<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
-	<PageButton url={data.previousPageUrl} title="previous chapter">‹</PageButton>
+</div>
+<div style="margin-bottom: 1rem; display: flex; justify-content: center;">
+	<div class="buttons-ereader">
+		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
+		<PageButton url={data.previousPageUrl} title="previous chapter">‹</PageButton>
 
-	<PageButton url="/" title="next page" class="outline">Home</PageButton>
-	<PageButton url={`/manga/${data.mangaId}`} title="next page" class="outline">{data.chapterId}</PageButton>
+		<PageButton url="/" title="next page" class="outline">⌂</PageButton>
+		<PageButton url={`/manga/${data.mangaId}`} title="next page" class="outline">{data.chapterId}</PageButton>
 
-	<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
-	<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
-</center>
+		<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
+		<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
+	</div>
+</div>
+
+<div style="display: none !important;" class="buttons-noereader">
+	css-class-dummy: use dynamic classes here so svelte does not tree shake them away
+</div>
 
 <!-- for prewarming cache. see app.html -->
 <span id="next-page-url" style="display: none">{data.nextPageUrl}</span>
 <span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
+
+<style>
+	.buttons-ereader {
+		display: flex;
+		justify-content: center;
+	}
+	.buttons-noereader {
+		display: flex;
+		justify-content: space-evenly;
+		/* max-width: 30rem; */
+		width: 28rem;
+	}
+</style>
