@@ -66,7 +66,7 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<center style="margin-top: 1rem; margin-bottom: 1rem;">
+<center style="margin-bottom: 1rem;">
 	<PageButton url={data.previousPageUrl} title="previous page">«</PageButton>
 	<PageButton url={data.previousChapterUrl} title="previous chapter">‹</PageButton>
 
