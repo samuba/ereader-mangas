@@ -87,7 +87,6 @@
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-<!-- <div style="overflow: auto; display: flex; justify-content: center;"> -->
 <a href={data.nextPageUrl}>
 	<center>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -96,7 +95,7 @@
 		</div>
 	</center>
 </a>
-<!-- </div> -->
+
 <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
 	<center class="buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
