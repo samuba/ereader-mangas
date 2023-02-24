@@ -65,8 +65,8 @@
 	</a>
 	<div bind:this={scrollElement} style="display: inline-block; margin: 0; padding: 0;" />
 </div>
-<div style="display: flex; justify-content: center; margin-top: 1rem; ">
-	<div style="padding-right:1rem;">
+<center style="margin-top: 1rem; ">
+	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.previousChapterUrl}
 			<a href={data.previousChapterUrl} title="previous chapter">
 				<button> « </button>
@@ -75,20 +75,20 @@
 			<button disabled title="previous chapter not available"> «</button>
 		{/if}
 	</div>
-	<div style="padding-right:1rem;">
+	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.previousPageUrl}
 			<a href={data.previousPageUrl} title="previous page"><button>‹</button></a>
 		{:else}
 			<button disabled title="previous page not available">‹</button>
 		{/if}
 	</div>
-	<a href="/" style="padding-right:1rem;">
+	<a href="/" style="display: inline-block; padding-right:1rem;">
 		<button class="outline">Home</button>
 	</a>
-	<a href={`/manga/${data.mangaId}`} style="padding-right:1rem;" title="manga overview">
+	<a href={`/manga/${data.mangaId}`} style="display: inline-block; padding-right:1rem;" title="manga overview">
 		<button class="outline">{data.chapterId}</button>
 	</a>
-	<div style="padding-right:1rem;">
+	<div style="display: inline-block; padding-right:1rem;">
 		{#if data.nextPageUrl}
 			<a href={data.nextPageUrl} title="next page">
 				<button>›</button>
@@ -97,7 +97,7 @@
 			<button disabled title="next page not available"> ›</button>
 		{/if}
 	</div>
-	<div>
+	<div style="display: inline-block; ">
 		{#if data.nextChapterUrl}
 			<a href={data.nextChapterUrl} title="next chapter">
 				<button> »</button>
@@ -106,7 +106,7 @@
 			<button disabled title="next chapter not available"> »</button>
 		{/if}
 	</div>
-</div>
+</center>
 
 <!-- for prewarming cache. see app.html -->
 <span id="next-page-url" style="display: none">{data.nextPageUrl}</span>
