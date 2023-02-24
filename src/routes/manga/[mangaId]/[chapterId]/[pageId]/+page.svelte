@@ -9,6 +9,7 @@
 
 	let imgStyle = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
 	let imgElement: HTMLImageElement;
+	let imgContainer: HTMLElement;
 	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
 	onMount(() => {
@@ -17,8 +18,12 @@
 
 			isWideImage = this.width > this.height;
 			imgStyle = calculateStyle(isWideImage);
+			imgContainer.scrollLeft = imgContainer.clientWidth;
 		};
 
+		if (imgContainer?.clientWidth) {
+			imgContainer.scrollLeft = imgContainer.clientWidth;
+		}
 		imgStyle = calculateStyle(false);
 		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
 	});
@@ -60,7 +65,7 @@
 <a href={data.nextPageUrl}>
 	<center>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div style="overflow: auto;">
+		<div style="overflow: auto;" bind:this={imgContainer}>
 			<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={imgStyle} />
 		</div>
 	</center>
