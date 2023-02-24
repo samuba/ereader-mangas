@@ -18,17 +18,9 @@
 </div>
 
 <style>
-	@media (color: 0) {
-		.butt {
-			margin-top: 5rem;
-			background-color: red;
-		}
-	}
-	@media (monochrome) {
-		.butt {
-			font-size: 10pt;
-			padding-right: 1rem;
-			padding-left: 1rem;
-		}
+	.butt {
+		font-size: 9pt;
+		padding-right: 1rem;
+		padding-left: 1rem;
 	}
 </style>
