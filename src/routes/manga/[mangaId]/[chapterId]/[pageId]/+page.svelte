@@ -96,7 +96,7 @@
 	</center>
 </a>
 
-<div style="margin-bottom: 1rem; display: flex; justify-content: center;">
+<div style="display: flex; justify-content: center;">
 	<center class="buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
 		<PageButton url={data.previousPageUrl} title="previous chapter">‹</PageButton>
@@ -125,6 +125,7 @@
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
 		width: 28rem;
+		margin-bottom: 1rem;
 	}
 
 	.img-phone {
