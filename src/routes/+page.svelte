@@ -25,7 +25,7 @@
 </NavMenu>
 
 <div class="px-5">
-	<ul role="list" class="mt-3 mx-auto max-w-6xl">
+	<ul role="list" class="mt-3 mx-auto lg:max-w-[68rem] max-w-[34rem]">
 		{#each data.searchResults as manga (manga.mangaId)}
 			<MangaCard2 {manga} />
 		{/each}
