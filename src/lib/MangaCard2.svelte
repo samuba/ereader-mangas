@@ -5,9 +5,9 @@
 </script>
 
 <li class="rounded-md shadow-sm inline-block m-2">
-	<div class="inline-block align-top bg-gray-800 text-white text-sm font-medium rounded-l-md min-h-[13rem] max-h-[13rem]">
+	<div class="inline-block align-top bg-gray-800 text-white text-sm font-medium rounded-l-md min-h-[13rem] max-h-[13rem] ">
 		<a href={`/manga/${manga.mangaId}`}>
-			<img src={manga.thumbnail} class="rounded-l-md max-h-[13rem] max-w-[20rem]" alt="" />
+			<img src={manga.thumbnail} class="rounded-l-md max-h-[13rem] max-w-[8.5rem] object-cover" alt="" />
 		</a>
 	</div>
 	<div class="inline-block align-top min-h-[13rem] w-96 rounded-r-md border-t border-r border-b border-gray-200 bg-white">
