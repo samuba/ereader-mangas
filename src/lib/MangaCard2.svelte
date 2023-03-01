@@ -32,7 +32,7 @@
 				</span>
 				<span class="ml-4">
 					{manga.rating}
-					<StarIcon class="inline h-4 align-middle" />
+					<StarIcon class="inline h-4 w-4" />
 				</span>
 				<span class="ml-4">
 					{manga.views} Views
