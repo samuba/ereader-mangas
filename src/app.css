@@ -2,7 +2,11 @@
 @tailwind components;
 
 body {
-	@apply bg-gray-600;
+	@apply bg-indigo-100;
+}
+
+.link {
+	@apply hover:underline text-indigo-800;
 }
 
 @tailwind utilities;

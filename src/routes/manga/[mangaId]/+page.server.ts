@@ -21,7 +21,25 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 		.next()
 		.text()
 		.split(';')
-		.map((x) => x.trim());
+		.map((x) => x.trim().replace(/\(.*\)/, '')); // remove  "... (english)"
+	const status = $('.info-status').parent().next().text();
+	const authors = $('.info-author')
+		.parent()
+		.next()
+		.children()
+		.map((_, el) => $(el).text())
+		.toArray();
+	const genres = $('.info-genres')
+		.parent()
+		.next()
+		.children()
+		.map((_, el) => $(el).text())
+		.toArray();
+	const description = $('.panel-story-info-description').text().replace('Description :', '').trim();
+	const lastUpdate = $('.info-time').parent().next().text().split('-')?.[0];
+	const views = $('.info-view').parent().next().text();
+	const rating = Number($('#rate_row_cmd').find('[property="v:average"]').text());
+
 	const thumbnail = $('.info-image img').attr('src');
 	const chapters = $('.row-content-chapter li')
 		.map((_, el) => {
@@ -34,6 +52,7 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 			};
 		})
 		.get();
+
 	const infoElements = [
 		{
 			label: 'Author',
@@ -78,6 +97,13 @@ export const load = (async ({ params, url: { searchParams, origin }, cookies }) 
 		alternativeTitles,
 		chapters,
 		thumbnail,
+		status,
+		lastUpdate,
+		views,
+		rating,
+		authors,
+		genres,
+		description,
 		userPosition: {
 			lastChapter: cookies.get('chapter'),
 			lastPage: cookies.get('page'),

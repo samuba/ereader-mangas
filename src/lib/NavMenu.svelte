@@ -1,30 +1,35 @@
 <script lang="ts">
+	import AppIcon from './icons/AppIcon.svelte';
+	import SearchIcon from './icons/SearchIcon.svelte';
 </script>
 
-<header class="bg-gray-800">
-	<div class="mx-auto w-96 px-2 sm:px-4 lg:px-8 h-16 py-3">
-		<div class="inline-block align-middle text-indigo-300 mr-6">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-8 inline-block" viewBox="0 0 16 16">
-				<path
-					d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"
-				/>
-			</svg>
-		</div>
-		<div class="inline-block align-middle w-[16rem]">
-			<div class="w-full">
-				<div class="relative">
-					<div class="pointer-events-none absolute top-2 left-0  pl-3">
-						<svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-							<path
-								fill-rule="evenodd"
-								d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-								clip-rule="evenodd"
-							/>
-						</svg>
+<header class="bg-indigo-900">
+	{#if $$slots['search-input']}
+		<div class="mx-auto w-96 w-68 px-2 sm:px-4 lg:px-8 h-16 py-3">
+			<a href="/">
+				<div class="inline-block align-middle text-indigo-400 mr-6">
+					<AppIcon class="h-8 inline-block" />
+				</div>
+			</a>
+			<div class="inline-block align-middle w-[16rem]">
+				<div class="w-full">
+					<div class="relative">
+						<div class="pointer-events-none absolute top-2 left-0  pl-3">
+							<SearchIcon class="h-5 w-5 text-indigo-900" />
+						</div>
+						<slot name="search-input" />
 					</div>
-					<slot name="search-input" />
 				</div>
 			</div>
 		</div>
-	</div>
+	{:else}
+		<center class="h-16 py-4">
+			<a href="/">
+				<div class="inline-block align-middle text-indigo-300">
+					<AppIcon class="h-8 inline-block" />
+					<h1 class="inline-block ml-4 text-lg">eReader-Mangas</h1>
+				</div>
+			</a>
+		</center>
+	{/if}
 </header>
