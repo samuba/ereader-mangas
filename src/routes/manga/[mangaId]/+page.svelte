@@ -22,7 +22,7 @@
 			<img src={data.thumbnail} class=" max-h-[23rem] max-w-[17rem] object-cover h-[26rem] mr-4 sm:mr-8" />
 		</div>
 		<div class="inline-block align-top text-gray-900 max-w-2xl leading-snug">
-			<h1 class="text-4xl text-indigo-900">{data.title}</h1>
+			<h1 class="text-4xl text-slate-900">{data.title}</h1>
 			<h6 style="text-sm" title="alternative titles">{data.alternativeTitles.join(', ')}</h6>
 			<div class="mt-4">
 				{#each data.authors as author, authorIndex}
