@@ -7,8 +7,8 @@
 	{#if $$slots['search-input']}
 		<div class="mx-auto w-96 w-68 px-2 sm:px-4 lg:px-8 h-16 py-3">
 			<a href="/">
-				<div class="inline-block align-middle text-indigo-400 mr-6">
-					<AppIcon class="h-8 inline-block" />
+				<div class="inline-block align-middle text-indigo-300 mr-6">
+					<AppIcon class="h-8 w-8 inline-block" />
 				</div>
 			</a>
 			<div class="inline-block align-middle w-[16rem]">
@@ -26,7 +26,7 @@
 		<center class="h-16 py-4">
 			<a href="/">
 				<div class="inline-block align-middle text-indigo-300">
-					<AppIcon class="h-8 inline-block" />
+					<AppIcon class="h-8 w-8 inline-block" />
 					<h1 class="inline-block ml-4 text-lg">eReader-Mangas</h1>
 				</div>
 			</a>

@@ -30,7 +30,7 @@
 	<div class="mt-3 mx-auto lg:max-w-[68rem] max-w-[34rem]">
 		{#if data.searchResults && data.search}
 			<h2 class="text-2xl text-indigo-900 mb-4 mt-6">
-				<SearchIcon class="h-7 inline-block text-indigo-800" />
+				<SearchIcon class="h-7 w-7 inline-block text-indigo-800" />
 				Found {data.searchResults.length} Mangas out of {data.allMangasCount}
 			</h2>
 		{/if}
@@ -39,7 +39,7 @@
 		{/each}
 
 		<h2 class="text-2xl text-indigo-900 mb-4 mt-8 ">
-			<StarIcon class="h-7 inline-block text-indigo-800" />
+			<StarIcon class="h-7 w-7 inline-block text-indigo-800" />
 			Favorites
 		</h2>
 		{#each data.favorites as manga}
