@@ -19,7 +19,7 @@
 			value={data.search}
 			id="search"
 			name="search"
-			class="block w-full rounded-md border border-indigo-400 bg-indigo-400 text-indigo-900 py-2 pl-10 pr-3 text-sm placeholder-indigo-900 focus:border-indigo-200  focus:placeholder-indigo-500 focus:outline-none focus:ring-indigo-200 sm:text-sm"
+			class="block w-full rounded-md border border-indigo-300 bg-indigo-300 text-indigo-900 py-2 pl-10 pr-3 text-sm placeholder-indigo-900 focus:border-indigo-200  focus:placeholder-indigo-500 focus:outline-none focus:ring-indigo-200 sm:text-sm"
 			placeholder="Search"
 			type="search"
 		/>
