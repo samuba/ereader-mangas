@@ -28,13 +28,14 @@
 		addEventListener('beforeunload', () => {
 			loadingNewPage = true;
 			document.documentElement.style.overflow = 'hidden';
+			document.body.style.position = 'relative';
 		});
 	});
 </script>
 
 {#if loadingNewPage}
 	<div
-		class="bg-slate-700/50 z-50 h-full w-full absolute flex justify-center items-center backdrop-blur-[3px]"
+		class="bg-slate-700/50 z-50 absolute w-screen h-screen flex justify-center items-center backdrop-blur-[3px]"
 		in:fade={{ delay: 300, duration: 200 }}
 	>
 		<svg class="animate-spin h-16 w-16 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
