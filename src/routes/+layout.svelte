@@ -24,17 +24,21 @@
 		// window.onhashchange = function () {
 		// 	window.location.hash = 'no-back-button';
 		// };
-
 		// window.history.pushState(null, '', window.location.href);
 		// window.onpopstate = function () {
 		// 	window.history.pushState(null, '', window.location.href);
 		// };
+		// history.pushState(null, document.title, location.href);
+		// history.back();
+		// history.forward();
+		// window.onpopstate = function () {
+		// 	history.go(1);
+		// };
 
-		history.pushState(null, document.title, location.href);
-		history.back();
-		history.forward();
-		window.onpopstate = function () {
-			history.go(1);
+		window.location.hash = 'no-back-button';
+		window.location.hash = 'Again-No-back-button';
+		window.onhashchange = function () {
+			window.location.hash = 'no-back-button';
 		};
 	}
 
