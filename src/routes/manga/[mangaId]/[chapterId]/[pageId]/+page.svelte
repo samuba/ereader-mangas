@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { switchAllClassesToNoEreader } from '$lib/common';
+	import { switchAllEreaderClassesToNoEreader } from '$lib/common';
 	import ChevronDoubleLeft from '$lib/icons/ChevronDoubleLeft.svelte';
 	import ChevronDoubleRight from '$lib/icons/ChevronDoubleRight.svelte';
 	import ChevronLeftIcon from '$lib/icons/ChevronLeftIcon.svelte';
@@ -17,8 +17,6 @@
 	let imgContainer: HTMLElement;
 	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
 
-	let observer = null;
-
 	onMount(() => {
 		imgElement.onload = function () {
 			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
@@ -29,7 +27,7 @@
 			imgStyle = calculateStyle(isWideImage);
 		};
 
-		switchAllClassesToNoEreader(); // onMount does not get executed on kindle
+		switchAllEreaderClassesToNoEreader(); // onMount does not get executed on kindle
 
 		scrollImageToTheRight();
 
@@ -102,19 +100,17 @@
 </a>
 <div classs="flex justify-center align-middle items-center content-center">
 	<div class="text-center buttons-ereader">
-		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="w-4 h-4 inline" /></PageButton>
-		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="w-4 h-4 inline" /></PageButton>
+		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="inline" /></PageButton>
+		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="inline" /></PageButton>
 
-		<PageButton url="/" title="Home"><HomeIcon class="w-4 h-4 inline" /></PageButton>
-		<PageButton url={`/manga/${data.mangaId}`} title="Manga Overview" class="underline">{data.chapterId}</PageButton>
+		<PageButton url="/" title="Home"><HomeIcon class="inline" /></PageButton>
+		<PageButton url={`/manga/${data.mangaId}`} title="Manga Overview" class="underline">
+			Chapter {data.chapterId?.split('-')[1]}
+		</PageButton>
 
-		<PageButton url={data.nextPageUrl} title="next page"><ChevronRightIcon class="w-4 h-4 inline" /></PageButton>
-		<PageButton url={data.nextChapterUrl} title="next chapter"><ChevronDoubleRight class="w-4 h-4 inline" /></PageButton>
+		<PageButton url={data.nextPageUrl} title="next page"><ChevronRightIcon class="inline" /></PageButton>
+		<PageButton url={data.nextChapterUrl} title="next chapter"><ChevronDoubleRight class="inline" /></PageButton>
 	</div>
-</div>
-
-<div style="display: none !important;" class="buttons-noereader">
-	css-class-dummy: use dynamic classes here so svelte does not tree shake them away
 </div>
 
 <!-- for prewarming cache. see app.html -->
@@ -122,10 +118,10 @@
 <span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
 
 <style>
-	.buttons-ereader {
+	div :global(.buttons-ereader) {
 		/* center tag already centers */
 	}
-	.buttons-noereader {
+	div :global(.buttons-noereader) {
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
 		/* width: 28rem; */

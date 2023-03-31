@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	export let url: string | undefined;
 	export let title: string;
 </script>
@@ -24,12 +22,21 @@
 	}
 
 	.button-ereader {
-		font-size: 9pt;
 		padding-right: 1rem;
 		padding-left: 1rem;
 	}
 	.button-noereader {
 		margin-top: 1rem;
 		margin-bottom: 0;
+		font-size: 0.75rem;
+	}
+
+	.button-ereader :global(svg) {
+		width: 2rem;
+		height: 2rem;
+	}
+	.button-noereader :global(svg) {
+		width: 1rem;
+		height: 1rem;
 	}
 </style>
