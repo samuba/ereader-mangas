@@ -19,11 +19,11 @@
 	}
 
 	.button-ereader :global(svg) {
-		width: 2rem;
-		height: 2rem;
+		width: 2.2rem;
+		height: 2.2rem;
 	}
 	.button-noereader :global(svg) {
-		width: 1rem;
-		height: 1rem;
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 </style>
