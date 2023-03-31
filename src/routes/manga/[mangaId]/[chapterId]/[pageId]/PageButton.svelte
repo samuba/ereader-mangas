@@ -5,7 +5,7 @@
 
 <div class="wrapper-ereader inline-block">
 	<a href={url} {title}>
-		<button class={$$props.class + ' button-ereader'}>
+		<button class={$$props.class + ' button-ereader min-h-[1.5rem] min-w-[1.5rem]'}>
 			<slot />
 		</button>
 	</a>
@@ -13,8 +13,8 @@
 
 <style>
 	.wrapper-ereader {
-		margin-right: 1rem;
-		margin-left: 1rem;
+		/* margin-right: 1rem;
+		margin-left: 1rem; */
 	}
 	.wrapper-noereader {
 		/* margin-right: 0.5rem;
@@ -26,8 +26,6 @@
 		padding-left: 1rem;
 	}
 	.button-noereader {
-		margin-top: 1rem;
-		margin-bottom: 0;
 		font-size: 0.75rem;
 	}
 
