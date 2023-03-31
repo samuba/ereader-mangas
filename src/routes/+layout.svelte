@@ -14,17 +14,6 @@
 		}
 	}
 
-	let originalHref = browser ? window.location.href : undefined;
-
-	$: if (browser && loadingNewPage) {
-		setInterval(() => {
-			if (originalHref !== window.location.href) {
-				loadingNewPage = false;
-			}
-			// console.log({ originalHref, current: window.location.href });
-		}, 100);
-	}
-
 	onMount(() => {
 		addEventListener(
 			'hashchange',
