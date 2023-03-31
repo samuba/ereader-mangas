@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -6,7 +7,24 @@
 
 	let loadingNewPage = false;
 
+	if (browser) {
+		if (performance.navigation.type === 2) {
+			console.log('came from back button');
+			loadingNewPage = false;
+		}
+	}
+
 	onMount(() => {
+		addEventListener(
+			'hashchange',
+			() => {
+				// trying to detect browser back button
+				console.log('hash');
+				loadingNewPage = false;
+			},
+			false,
+		);
+
 		addEventListener('beforeunload', () => {
 			loadingNewPage = true;
 			document.documentElement.style.overflow = 'hidden';
@@ -17,7 +35,7 @@
 {#if loadingNewPage}
 	<div
 		class="bg-slate-700/50 z-50 h-full w-full absolute flex justify-center items-center backdrop-blur-[3px]"
-		in:fade={{ delay: 200, duration: 200 }}
+		in:fade={{ delay: 300, duration: 200 }}
 	>
 		<div class="  text-white h-28 w-2 rounded-full">
 			<svg
