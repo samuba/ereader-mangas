@@ -70,7 +70,7 @@
 	function calculateStyle(isWideImage: boolean) {
 		if (!browser) return '';
 		if (isPhone()) {
-			return 'overflow-x: auto; height: 100vh;';
+			return 'overflow-x: auto; height: 100vh; max-width: unset;';
 		}
 		if (isBigScreen()) {
 			if (isWideImage) {
