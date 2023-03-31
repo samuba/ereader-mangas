@@ -98,7 +98,7 @@
 		</div>
 	</center>
 </a>
-<div class="flex justify-center mb-4">
+<div class="flex justify-center">
 	<div class="text-center buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="inline" /></PageButton>
 		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="inline" /></PageButton>
@@ -119,14 +119,14 @@
 
 <style>
 	div :global(.buttons-ereader) {
-		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
 	}
 	div :global(.buttons-noereader) {
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
 		width: 28rem;
-		margin-bottom: 1rem;
+		padding-bottom: 1rem;
 	}
 
 	.img-phone {
