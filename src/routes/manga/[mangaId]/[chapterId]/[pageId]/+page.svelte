@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { switchAllClassesToNoEreader } from '$lib/common';
+	import ChevronDoubleLeft from '$lib/icons/ChevronDoubleLeft.svelte';
+	import ChevronDoubleRight from '$lib/icons/ChevronDoubleRight.svelte';
+	import ChevronLeftIcon from '$lib/icons/ChevronLeftIcon.svelte';
+	import ChevronRightIcon from '$lib/icons/ChevronRightIcon.svelte';
+	import HomeIcon from '$lib/icons/HomeIcon.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import PageButton from './PageButton.svelte';
@@ -95,18 +100,17 @@
 		</div>
 	</center>
 </a>
+<div classs="flex justify-center align-middle items-center content-center">
+	<div class="text-center buttons-ereader">
+		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="w-4 h-4 inline" /></PageButton>
+		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="w-4 h-4 inline" /></PageButton>
 
-<div style="display: flex; justify-content: center;">
-	<center class="buttons-ereader">
-		<PageButton url={data.previousChapterUrl} title="previous page">«</PageButton>
-		<PageButton url={data.previousPageUrl} title="previous chapter">‹</PageButton>
+		<PageButton url="/" title="Home"><HomeIcon class="w-4 h-4 inline" /></PageButton>
+		<PageButton url={`/manga/${data.mangaId}`} title="Manga Overview" class="underline">{data.chapterId}</PageButton>
 
-		<PageButton url="/" title="next page" class="outline">⌂</PageButton>
-		<PageButton url={`/manga/${data.mangaId}`} title="next page" class="outline">{data.chapterId}</PageButton>
-
-		<PageButton url={data.nextPageUrl} title="next page">›</PageButton>
-		<PageButton url={data.nextChapterUrl} title="next chapter">»</PageButton>
-	</center>
+		<PageButton url={data.nextPageUrl} title="next page"><ChevronRightIcon class="w-4 h-4 inline" /></PageButton>
+		<PageButton url={data.nextChapterUrl} title="next chapter"><ChevronDoubleRight class="w-4 h-4 inline" /></PageButton>
+	</div>
 </div>
 
 <div style="display: none !important;" class="buttons-noereader">
@@ -124,7 +128,7 @@
 	.buttons-noereader {
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
-		width: 28rem;
+		/* width: 28rem; */
 		margin-bottom: 1rem;
 	}
 

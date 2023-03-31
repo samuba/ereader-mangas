@@ -5,18 +5,12 @@
 	export let title: string;
 </script>
 
-<div class="wrapper-ereader" style="display: inline-block;">
-	{#if url}
-		<a href={url} {title}>
-			<button class={$$props.class + ' button-ereader'}>
-				<slot />
-			</button>
-		</a>
-	{:else}
-		<button disabled class={$$props.class + ' button-ereader'} title={`${title} not available`}>
+<div class="wrapper-ereader inline-block">
+	<a href={url} {title}>
+		<button class={$$props.class + ' button-ereader'}>
 			<slot />
 		</button>
-	{/if}
+	</a>
 </div>
 
 <style>
