@@ -130,4 +130,9 @@
 		padding-top: 1rem;
 		padding-bottom: 1rem;
 	}
+
+	img::selection {
+		background-color: transparent;
+		color: transparent;
+	}
 </style>
