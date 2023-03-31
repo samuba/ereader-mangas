@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { switchAllEreaderClassesToNoEreader } from '$lib/common';
+	import { isBigScreen, isPhone, switchAllEreaderClassesToNoEreader } from '$lib/common';
 	import ChevronDoubleLeft from '$lib/icons/ChevronDoubleLeft.svelte';
 	import ChevronDoubleRight from '$lib/icons/ChevronDoubleRight.svelte';
 	import ChevronLeftIcon from '$lib/icons/ChevronLeftIcon.svelte';
@@ -57,16 +57,6 @@
 		observer.observe(element);
 	}
 
-	function tailwindCssScreenSize() {
-		if (!browser) return '?';
-		if (document?.documentElement?.clientWidth >= 1536) return '2xl';
-		if (document?.documentElement?.clientWidth >= 1280) return 'xl';
-		if (document?.documentElement?.clientWidth >= 1024) return 'lg';
-		if (document?.documentElement?.clientWidth >= 768) return 'md';
-		if (document?.documentElement?.clientWidth >= 640) return 'sm';
-		return 'sm';
-	}
-
 	function calculateStyle(isWideImage: boolean) {
 		if (!browser) return '';
 		if (isPhone()) {
@@ -81,9 +71,6 @@
 		}
 		return `object-fit: contain; max-width: unset; height: 100%; width: 100%`;
 	}
-
-	const isPhone = () => tailwindCssScreenSize() === 'sm';
-	const isBigScreen = () => document?.documentElement?.clientWidth >= 768;
 </script>
 
 <svelte:head>
@@ -129,10 +116,5 @@
 		width: 28rem;
 		padding-top: 1rem;
 		padding-bottom: 1rem;
-	}
-
-	img::selection {
-		background-color: transparent;
-		color: transparent;
 	}
 </style>

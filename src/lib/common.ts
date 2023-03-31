@@ -1,3 +1,5 @@
+import { browser } from '$app/environment';
+
 export function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -13,3 +15,16 @@ export function switchAllEreaderClassesToNoEreader() {
 		}
 	}
 }
+
+function tailwindCssScreenSize() {
+	if (!browser) return '?';
+	if (document?.documentElement?.clientWidth >= 1536) return '2xl';
+	if (document?.documentElement?.clientWidth >= 1280) return 'xl';
+	if (document?.documentElement?.clientWidth >= 1024) return 'lg';
+	if (document?.documentElement?.clientWidth >= 768) return 'md';
+	if (document?.documentElement?.clientWidth >= 640) return 'sm';
+	return 'sm';
+}
+
+export const isPhone = () => tailwindCssScreenSize() === 'sm';
+export const isBigScreen = () => document?.documentElement?.clientWidth >= 768;
