@@ -2,51 +2,28 @@
 	import { browser } from '$app/environment';
 	import { isPhone } from '$lib/common';
 	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import '../app.css';
 
 	let loadingNewPage = false;
 
 	if (browser) {
-		if (performance.navigation?.type === 2) {
-			console.log('came from back button');
-			loadingNewPage = false;
-		}
-
 		if (isPhone()) killBackButton(); // back button breaks on mobile cuz page will have loading indicator and you cannot do anything
-	}
 
-	function killBackButton() {
-		// history.pushState(null, document.title, location.href + '#no-back-button');
-		window.location.hash = 'no-back-button';
-		window.location.hash = 'Again-No-back-button'; // Again because Google Chrome doesn't insert  the first hash into the history
-		window.onhashchange = function () {
-			window.location.hash = 'no-back-button';
-		};
-		// window.history.pushState(null, '', window.location.href);
-		// window.onpopstate = function () {
-		// 	window.history.pushState(null, '', window.location.href);
-		// };
-		// history.pushState(null, document.title, location.href);
-		// history.back();
-		// history.forward();
-		// window.onpopstate = function () {
-		// 	history.go(1);
-		// };
-
-		// setTimeout(() => window.history.forward(), 0);
-		// window.onunload = () => null;
-	}
-
-	onMount(() => {
 		addEventListener('beforeunload', () => {
 			loadingNewPage = true;
 			document.documentElement.style.overflow = 'hidden';
-
-			// killBackButton();
 		});
-	});
+	}
+
+	function killBackButton() {
+		history.pushState(null, document.title, location.href);
+		history.back();
+		history.forward();
+		window.onpopstate = function () {
+			history.go(1);
+		};
+	}
 </script>
 
 {#if loadingNewPage}
