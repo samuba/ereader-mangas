@@ -119,12 +119,14 @@
 
 <style>
 	div :global(.buttons-ereader) {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
 	}
 	div :global(.buttons-noereader) {
 		display: flex;
 		justify-content: space-evenly; /* important for phones */
 		width: 28rem;
-		/* margin-bottom: 1rem; */
+		margin-bottom: 1rem;
 	}
 
 	.img-phone {
