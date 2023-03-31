@@ -5,7 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import '../app.css';
 
-	let loadingNewPage = true;
+	let loadingNewPage = false;
 
 	if (browser) {
 		if (performance.navigation.type === 2) {
