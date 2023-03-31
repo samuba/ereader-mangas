@@ -19,11 +19,11 @@
 
 	function killBackButton() {
 		// history.pushState(null, document.title, location.href + '#no-back-button');
-		// window.location.hash = 'no-back-button';
-		// // window.location.hash = 'Again-No-back-button'; // Again because Google Chrome doesn't insert  the first hash into the history
-		// window.onhashchange = function () {
-		// 	window.location.hash = 'no-back-button';
-		// };
+		window.location.hash = 'no-back-button';
+		window.location.hash = 'Again-No-back-button'; // Again because Google Chrome doesn't insert  the first hash into the history
+		window.onhashchange = function () {
+			window.location.hash = 'no-back-button';
+		};
 		// window.history.pushState(null, '', window.location.href);
 		// window.onpopstate = function () {
 		// 	window.history.pushState(null, '', window.location.href);
@@ -35,8 +35,8 @@
 		// 	history.go(1);
 		// };
 
-		setTimeout(() => window.history.forward(), 0);
-		window.onunload = () => null;
+		// setTimeout(() => window.history.forward(), 0);
+		// window.onunload = () => null;
 	}
 
 	onMount(() => {
