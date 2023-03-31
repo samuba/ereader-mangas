@@ -9,10 +9,7 @@ const config = {
 
 	kit: {
 		adapter: vercel({
-			// if true, will deploy the app using edge functions
-			// (https://vercel.com/docs/concepts/functions/edge-functions)
-			// rather than serverless functions
-			runtime: 'edge',
+			runtime: 'nodejs18.x',
 
 			// an array of dependencies that esbuild should treat
 			// as external when bundling functions
