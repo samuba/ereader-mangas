@@ -35,10 +35,9 @@
 		// 	history.go(1);
 		// };
 
-		window.location.hash = 'no-back-button';
-		window.location.hash = 'Again-No-back-button';
-		window.onhashchange = function () {
-			window.location.hash = 'no-back-button';
+		history.pushState({ page: 1 }, document.title, location.href + '#nbb');
+		window.onhashchange = function (event) {
+			window.location.hash = 'nbb';
 		};
 	}
 
