@@ -8,23 +8,13 @@
 	let loadingNewPage = false;
 
 	if (browser) {
-		if (performance.navigation.type === 2) {
+		if (performance.navigation?.type === 2) {
 			console.log('came from back button');
 			loadingNewPage = false;
 		}
 	}
 
 	onMount(() => {
-		addEventListener(
-			'hashchange',
-			() => {
-				// trying to detect browser back button
-				console.log('hash');
-				loadingNewPage = false;
-			},
-			false,
-		);
-
 		addEventListener('beforeunload', () => {
 			loadingNewPage = true;
 			document.documentElement.style.overflow = 'hidden';
