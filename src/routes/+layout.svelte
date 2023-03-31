@@ -35,10 +35,8 @@
 		// 	history.go(1);
 		// };
 
-		history.pushState({ page: 1 }, document.title, location.href + '#nbb');
-		window.onhashchange = function (event) {
-			window.location.hash = 'nbb';
-		};
+		setTimeout(() => window.history.forward(), 0);
+		window.onunload = () => null;
 	}
 
 	onMount(() => {
