@@ -15,28 +15,20 @@
 	let imgStyle = 'object-fit: contain; max-width: unset; width: 100%; display: block; '; // this is the style that kindle will use
 	let imgElement: HTMLImageElement;
 	let imgContainer: HTMLElement;
-	let isWideImage = false; // does not work on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
+	let imgWidth: number;
+	let imgHeight: number;
+
+	$: isWideImage = imgWidth > imgHeight;
+	$: imgStyle = calculateStyle(isWideImage);
 
 	onMount(() => {
-		imgElement.onload = function () {
-			// not executed on kindle. Looks like kindle does not allow dom update from javascript, or javascript is not executed at all
-
-			scrollImageToTheRight();
-
-			isWideImage = this.width > this.height;
-			imgStyle = calculateStyle(isWideImage);
-		};
-
-		switchAllEreaderClassesToNoEreader(); // onMount does not get executed on kindle
-
 		scrollImageToTheRight();
-
-		imgStyle = calculateStyle(false);
-
 		respondToVisibility(imgElement, () => {
 			// did not find a better way to trigger this reliably on phones
 			scrollImageToTheRight();
 		});
+
+		switchAllEreaderClassesToNoEreader(); // onMount does not get executed on kindle
 	});
 
 	function scrollImageToTheRight() {
@@ -81,7 +73,15 @@
 	<center>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div style="overflow: auto;" bind:this={imgContainer}>
-			<img id="image" bind:this={imgElement} src={data.currentImageUrl} style={imgStyle} />
+			<img
+				id="image"
+				bind:this={imgElement}
+				bind:naturalWidth={imgWidth}
+				bind:naturalHeight={imgHeight}
+				src={data.currentImageUrl}
+				style={imgStyle}
+				alt="the current manga page"
+			/>
 		</div>
 	</center>
 </a>
