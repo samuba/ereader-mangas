@@ -64,6 +64,18 @@
 			</div>
 
 			<div class="mt-4">
+				<select
+					class="inline-block max-w-xs"
+					on:change={function (e) {
+						// written this way to make it work on kindle
+						location.href = JSON.parse(e.target.value).url;
+					}}
+				>
+					<option value="" selected disabled>Open Chapter</option>
+					{#each data.chapters as chapter}
+						<option value={JSON.stringify(chapter)}>{chapter.text} ({chapter.date})</option>
+					{/each}
+				</select>
 				{#if data.userPosition.lastPage && data.userPosition.lastChapter}
 					<a
 						href={routes.readPage(data.mangaId, data.userPosition.lastChapter, data.userPosition.lastPage)}
