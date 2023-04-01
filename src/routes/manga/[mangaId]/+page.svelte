@@ -3,9 +3,16 @@
 	import StarIcon from '$lib/icons/StarIcon.svelte';
 	import NavMenu from '$lib/NavMenu.svelte';
 	import { routes } from '$lib/routes';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	let isEreader = true;
+
+	onMount(() => {
+		isEreader = false; // for some reason gets never executed on kindle
+	});
 
 	const order = Number($page.url.searchParams.get('order'));
 </script>
@@ -68,45 +75,59 @@
 					<a
 						href={routes.readPage(data.mangaId, data.userPosition.lastChapter, data.userPosition.lastPage)}
 						role="button"
-						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block"
+						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block"
 					>
-						<b> ▶&nbsp;&nbsp; Continue </b>
+						<b>
+							▶&nbsp;&nbsp; Continue
+							{#if isEreader}
+								{data.userPosition.lastChapter.replace('-', ' ').replace('c', 'C')}
+							{/if}
+						</b>
 					</a>
 				{:else}
 					<a
 						href={routes.readPage(data.mangaId, 'chapter-1', '0')}
 						role="button"
-						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block"
+						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block"
 					>
 						<b> ▶&nbsp;&nbsp; Read </b>
 					</a>
 				{/if}
-				<select
-					class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block max-w-xs"
-					on:change={function (e) {
-						// written this way to make it work on kindle
-						location.href = JSON.parse(e.target.value).url;
-					}}
-				>
-					{#if !!data.userPosition.lastChapter}
-						<option selected disabled>Open Chapter</option>
-					{/if}
-					{#each data.chapters as chapter}
-						{#if data.userPosition.lastPage && data.userPosition.lastChapter}
-							<option selected={chapter.url.includes(data.userPosition.lastChapter)} value={JSON.stringify(chapter)}
-								>{chapter.text} ({chapter.date})</option
-							>
-						{:else}
-							<option value={JSON.stringify(chapter)}>{chapter.text} ({chapter.date})</option>
+
+				{#if !isEreader}
+					<select
+						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block max-w-xs"
+						on:change={(e) => (location.href = JSON.parse(e.target.value).url)}
+					>
+						{#if !!data.userPosition.lastChapter}
+							<option selected disabled>Open Chapter</option>
 						{/if}
-					{/each}
-				</select>
+						{#each data.chapters as chapter}
+							{#if data.userPosition.lastPage && data.userPosition.lastChapter}
+								<option selected={chapter.url.includes(data.userPosition.lastChapter)} value={JSON.stringify(chapter)}
+									>{chapter.text} ({chapter.date})</option
+								>
+							{:else}
+								<option value={JSON.stringify(chapter)}>{chapter.text} ({chapter.date})</option>
+							{/if}
+						{/each}
+					</select>
+				{/if}
+
 				{#if data.isFavorite}
-					<a href="?unfavorite=true" class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block" role="button">
+					<a
+						href="?unfavorite=true"
+						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block"
+						role="button"
+					>
 						<b> ★&nbsp;&nbsp; Remove Favorite </b>
 					</a>
 				{:else}
-					<a href="?favorite=true" class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block" role="button">
+					<a
+						href="?favorite=true"
+						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block"
+						role="button"
+					>
 						<b> ☆&nbsp;&nbsp; Add Favorite </b>
 					</a>
 				{/if}
@@ -114,12 +135,14 @@
 		</div>
 	</div>
 
-	<ul class="mt-10 max-w-xl mx-auto w-fit">
-		{#each data.chapters as chapter}
-			<li style="margin-bottom: 12px;">
-				<a href={chapter.url} class="link" data-sveltekit-reload>{chapter.text}</a>
-				<span class="block -mt-1 text-xs"> uploaded: {chapter.date}</span>
-			</li>
-		{/each}
-	</ul>
+	{#if isEreader}
+		<ul class="mt-10 max-w-xl mx-auto w-fit">
+			{#each data.chapters as chapter}
+				<li style="margin-bottom: 12px;">
+					<a href={chapter.url} class="link" data-sveltekit-reload>{chapter.text}</a>
+					<span class="block -mt-1 text-xs"> uploaded: {chapter.date}</span>
+				</li>
+			{/each}
+		</ul>
+	{/if}
 </div>
