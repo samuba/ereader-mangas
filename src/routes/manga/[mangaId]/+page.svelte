@@ -64,18 +64,6 @@
 			</div>
 
 			<div class="mt-4">
-				<select
-					class="inline-block max-w-xs"
-					on:change={function (e) {
-						// written this way to make it work on kindle
-						location.href = JSON.parse(e.target.value).url;
-					}}
-				>
-					<option value="" selected disabled>Open Chapter</option>
-					{#each data.chapters as chapter}
-						<option value={JSON.stringify(chapter)}>{chapter.text} ({chapter.date})</option>
-					{/each}
-				</select>
 				{#if data.userPosition.lastPage && data.userPosition.lastChapter}
 					<a
 						href={routes.readPage(data.mangaId, data.userPosition.lastChapter, data.userPosition.lastPage)}
@@ -93,6 +81,26 @@
 						<b> ▶&nbsp;&nbsp; Read </b>
 					</a>
 				{/if}
+				<select
+					class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block max-w-xs"
+					on:change={function (e) {
+						// written this way to make it work on kindle
+						location.href = JSON.parse(e.target.value).url;
+					}}
+				>
+					{#if !!data.userPosition.lastChapter}
+						<option selected disabled>Open Chapter</option>
+					{/if}
+					{#each data.chapters as chapter}
+						{#if data.userPosition.lastPage && data.userPosition.lastChapter}
+							<option selected={chapter.url.includes(data.userPosition.lastChapter)} value={JSON.stringify(chapter)}
+								>{chapter.text} ({chapter.date})</option
+							>
+						{:else}
+							<option value={JSON.stringify(chapter)}>{chapter.text} ({chapter.date})</option>
+						{/if}
+					{/each}
+				</select>
 				{#if data.isFavorite}
 					<a href="?unfavorite=true" class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 inline-block" role="button">
 						<b> ★&nbsp;&nbsp; Remove Favorite </b>
