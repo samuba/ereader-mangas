@@ -61,7 +61,7 @@
 				return `object-fit: contain;  max-width: 45rem;  height: 100%;  width: 100%`;
 			}
 		}
-		return `object-fit: contain; max-width: unset; height: 100%; width: 100%`;
+		return imgStyle;
 	}
 </script>
 
