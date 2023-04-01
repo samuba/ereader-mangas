@@ -24,11 +24,11 @@
 </svelte:head>
 
 <div class="mx-auto w-fit px-4">
-	<div class="mt-10 md:flex block">
-		<div class="inline-block align-top">
+	<div class="mt-10 mb-6 md:flex block">
+		<div class="md:inline-block flex justify-center align-top">
 			<img src={data.thumbnail} class=" max-h-[23rem] max-w-[17rem] object-cover h-[26rem] mr-4 sm:mr-8" />
 		</div>
-		<div class="inline-block align-top text-gray-900 max-w-2xl leading-snug">
+		<div class="mt-4 inline-block align-top text-gray-900 max-w-2xl leading-snug">
 			<h1 class="text-4xl text-slate-900">{data.title}</h1>
 			<h6 style="text-sm" title="alternative titles">{data.alternativeTitles.join(', ')}</h6>
 			<div class="mt-4">
@@ -51,23 +51,6 @@
 						<span class="pr-1">-</span>
 					{/if}
 				{/each}
-			</div>
-
-			<div class="mt-4">
-				<span>
-					Updated: {data.lastUpdate}
-				</span>
-				<span class="ml-4">
-					{data.rating}
-					<StarIcon class="inline h-4 align-middle" />
-				</span>
-				<span class="ml-4">
-					{data.views} Views
-				</span>
-			</div>
-
-			<div class="mt-4">
-				{data.description}
 			</div>
 
 			<div class="mt-4">
@@ -131,6 +114,23 @@
 						<b> ☆&nbsp;&nbsp; Add Favorite </b>
 					</a>
 				{/if}
+			</div>
+
+			<div class="">
+				<span>
+					Updated: {data.lastUpdate}
+				</span>
+				<span class="ml-4">
+					{data.rating}
+					<StarIcon class="inline h-4 align-middle" />
+				</span>
+				<span class="ml-4">
+					{data.views} Views
+				</span>
+			</div>
+
+			<div class="mt-4">
+				{data.description}
 			</div>
 		</div>
 	</div>
