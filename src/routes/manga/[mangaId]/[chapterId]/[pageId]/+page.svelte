@@ -50,17 +50,18 @@
 	}
 
 	function calculateStyle(isWideImage: boolean) {
-		// if (!browser) return '';
-		// if (isPhone()) {
-		// 	return 'overflow-x: auto; height: 100vh; max-width: unset;';
-		// }
-		// if (isBigScreen()) {
-		// 	if (isWideImage) {
-		// 		return `object-fit: contain;  max-width: unset;  height: ${window.innerHeight}px;  width: 100%;  overflow: auto;`;
-		// 	} else {
-		// 		return `object-fit: contain;  max-width: 45rem;  height: 100%;  width: 100%`;
-		// 	}
-		// }
+		if (!browser) return imgStyle;
+		if (data.isEreader) return imgStyle;
+		if (isPhone()) {
+			return 'overflow-x: auto; height: 100vh; max-width: unset;';
+		}
+		if (isBigScreen()) {
+			if (isWideImage) {
+				return `object-fit: contain;  max-width: unset;  height: ${window.innerHeight}px;  width: 100%;  overflow: auto;`;
+			} else {
+				return `object-fit: contain;  max-width: 45rem;  height: 100%;  width: 100%`;
+			}
+		}
 		return imgStyle;
 	}
 </script>

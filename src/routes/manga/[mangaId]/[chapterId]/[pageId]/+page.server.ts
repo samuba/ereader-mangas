@@ -3,6 +3,7 @@ import { load as cheerioLoad } from 'cheerio';
 import { refreshFavoritesCookie, setUsersLastPosition } from '$lib/cookies';
 import { routes } from '$lib/routes';
 import { error } from '@sveltejs/kit';
+import { isClientEreader } from '$lib/common';
 
 export const load = (async ({ params, cookies, url, setHeaders, request }) => {
 	console.log('user-agent', request.headers.get('user-agent'));
@@ -62,5 +63,6 @@ export const load = (async ({ params, cookies, url, setHeaders, request }) => {
 		imgUrls,
 		currentImageUrl: routes.scrapeImage(imgUrls[pageNumber], remotePageUrl),
 		nextImageUrl: routes.scrapeImage(imgUrls[pageNumber + 1], remotePageUrl),
+		isEreader: isClientEreader(request.headers),
 	};
 }) satisfies PageServerLoad;
