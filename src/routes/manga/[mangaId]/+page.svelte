@@ -82,8 +82,8 @@
 						class="border-indigo-900 bg-white border rounded px-4 py-2 mr-4 mb-4 inline-block max-w-xs"
 						on:change={(e) => (location.href = JSON.parse(e.target.value).url)}
 					>
-						{#if !!data.userPosition.lastChapter}
-							<option selected disabled>Open Chapter</option>
+						{#if data.userPosition.lastChapter === undefined}
+							<option selected disabled>Open Chapter...</option>
 						{/if}
 						{#each data.chapters as chapter}
 							{#if data.userPosition.lastPage && data.userPosition.lastChapter}

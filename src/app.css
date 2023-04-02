@@ -1,8 +1,13 @@
 @tailwind base;
 @tailwind components;
 
+html {
+	height: 100%;
+}
+
 body {
 	@apply bg-indigo-100;
+	min-height: 100%;
 }
 
 .link {
@@ -10,3 +15,9 @@ body {
 }
 
 @tailwind utilities;
+
+@media all and (display-mode: standalone) {
+	html {
+		background: #020015 url(https://loading.io/assets/img/p/landing/bar.svg) center center no-repeat;
+	}
+}

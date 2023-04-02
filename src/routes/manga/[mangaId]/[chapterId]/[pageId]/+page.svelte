@@ -71,7 +71,7 @@
 </svelte:head>
 
 <!-- because epapers do not handle dark backgrounds well if an image scrolled through it -->
-<div class:bg-indigo-1000={!data.isEreader} class:text-indigo-100={!data.isEreader}>
+<div class:bg-indigo-1000={!data.isEreader} class:text-indigo-100={!data.isEreader} class="h-full">
 	<a href={data.nextPageUrl}>
 		<center>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
