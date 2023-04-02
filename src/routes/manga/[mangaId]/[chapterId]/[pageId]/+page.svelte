@@ -80,7 +80,7 @@
 				bind:naturalHeight={imgHeight}
 				src={data.currentImageUrl}
 				style={imgStyle}
-				alt="the current manga page"
+				alt={imgWidth === undefined ? 'loading page...' : 'current page'}
 			/>
 		</div>
 	</center>
