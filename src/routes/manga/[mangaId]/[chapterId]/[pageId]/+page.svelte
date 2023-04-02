@@ -88,7 +88,7 @@
 </a>
 
 <div class="flex justify-center">
-	<div class="text-center buttons-ereader text-indigo-900">
+	<div class="text-center buttons-ereader">
 		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="inline" /></PageButton>
 		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="inline" /></PageButton>
 
@@ -107,6 +107,11 @@
 <span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
 
 <style>
+	:global(body) {
+		background-color: #0e0e1b !important;
+		color: white !important;
+	}
+
 	div :global(.buttons-ereader) {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
