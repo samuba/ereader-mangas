@@ -5,6 +5,7 @@
 	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import ReadMore from '$lib/ReadMore.svelte';
 
 	export let data: PageData;
 
@@ -130,7 +131,7 @@
 			</div>
 
 			<div class="mt-4">
-				{data.description}
+				<ReadMore textContent={data.description} maxChars="800" />
 			</div>
 		</div>
 	</div>
