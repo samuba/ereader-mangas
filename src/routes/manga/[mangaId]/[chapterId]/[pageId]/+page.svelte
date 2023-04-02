@@ -70,48 +70,46 @@
 	<title>{data.title} | {data.chapterId}</title>
 </svelte:head>
 
-<a href={data.nextPageUrl}>
-	<center>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div style="overflow: auto;" bind:this={imgContainer}>
-			<img
-				id="image"
-				bind:this={imgElement}
-				bind:naturalWidth={imgWidth}
-				bind:naturalHeight={imgHeight}
-				src={data.currentImageUrl}
-				style={imgStyle}
-				alt={imgWidth === undefined ? 'loading page...' : 'current page'}
-			/>
+<!-- because epapers do not handle dark backgrounds well if an image scrolled through it -->
+<div class:bg-indigo-1000={!data.isEreader} class:text-indigo-100={!data.isEreader}>
+	<a href={data.nextPageUrl}>
+		<center>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div style="overflow: auto;" bind:this={imgContainer}>
+				<img
+					id="image"
+					bind:this={imgElement}
+					bind:naturalWidth={imgWidth}
+					bind:naturalHeight={imgHeight}
+					src={data.currentImageUrl}
+					style={imgStyle}
+					alt={imgWidth === undefined ? 'loading page...' : 'current page'}
+				/>
+			</div>
+		</center>
+	</a>
+
+	<div class="flex justify-center">
+		<div class="text-center buttons-ereader">
+			<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="inline" /></PageButton>
+			<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="inline" /></PageButton>
+
+			<PageButton url="/" title="Home"><HomeIcon class="inline" /></PageButton>
+			<PageButton url={`/manga/${data.mangaId}`} title="Manga Overview" class="underline">
+				Chapter {data.chapterId?.split('-')[1]}
+			</PageButton>
+
+			<PageButton url={data.nextPageUrl} title="next page"><ChevronRightIcon class="inline" /></PageButton>
+			<PageButton url={data.nextChapterUrl} title="next chapter"><ChevronDoubleRight class="inline" /></PageButton>
 		</div>
-	</center>
-</a>
-
-<div class="flex justify-center">
-	<div class="text-center buttons-ereader">
-		<PageButton url={data.previousChapterUrl} title="previous page"><ChevronDoubleLeft class="inline" /></PageButton>
-		<PageButton url={data.previousPageUrl} title="previous chapter"><ChevronLeftIcon class="inline" /></PageButton>
-
-		<PageButton url="/" title="Home"><HomeIcon class="inline" /></PageButton>
-		<PageButton url={`/manga/${data.mangaId}`} title="Manga Overview" class="underline">
-			Chapter {data.chapterId?.split('-')[1]}
-		</PageButton>
-
-		<PageButton url={data.nextPageUrl} title="next page"><ChevronRightIcon class="inline" /></PageButton>
-		<PageButton url={data.nextChapterUrl} title="next chapter"><ChevronDoubleRight class="inline" /></PageButton>
 	</div>
+
+	<!-- for prewarming cache. see app.html -->
+	<span id="next-page-url" style="display: none">{data.nextPageUrl}</span>
+	<span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
 </div>
 
-<!-- for prewarming cache. see app.html -->
-<span id="next-page-url" style="display: none">{data.nextPageUrl}</span>
-<span id="next-image-url" style="display: none">{data.nextImageUrl}</span>
-
 <style>
-	:global(body) {
-		background-color: #0e0e1b !important;
-		color: white !important;
-	}
-
 	div :global(.buttons-ereader) {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
