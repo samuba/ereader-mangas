@@ -24,8 +24,8 @@
 	<title>{data.title} | Overview</title>
 </svelte:head>
 
-<div class="mx-auto w-fit px-4">
-	<div class="mt-10 mb-6 md:flex block">
+<div class="mx-auto w-fit px-4 pt-10 pb-6">
+	<div class="md:flex block">
 		<div class="md:inline-block flex justify-center align-top">
 			<img src={data.thumbnail} class=" max-h-[23rem] max-w-[17rem] object-cover h-[26rem] mr-4 sm:mr-8" />
 		</div>
