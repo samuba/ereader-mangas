@@ -4,7 +4,8 @@ import { refreshFavoritesCookie, setUsersLastPosition } from '$lib/cookies';
 import { routes } from '$lib/routes';
 import { error } from '@sveltejs/kit';
 
-export const load = (async ({ params, cookies, url, setHeaders }) => {
+export const load = (async ({ params, cookies, url, setHeaders, request }) => {
+	console.log('user-agent', request.headers.get('user-agent'));
 	const { origin } = url;
 	const { mangaId, chapterId, pageId } = params;
 	const pageNumber = Number(pageId);
