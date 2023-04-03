@@ -23,10 +23,8 @@
 
 	onMount(() => {
 		scrollImageToTheRight();
-		respondToVisibility(imgElement, () => {
-			// did not find a better way to trigger this reliably on phones
-			scrollImageToTheRight();
-		});
+		respondToVisibility(imgElement, () => scrollImageToTheRight()); // did not find a better way to trigger this reliably on phones
+		imgElement.onload = () => scrollImageToTheRight(); // both triggers seem to be necessary to tackle all occurences
 
 		switchAllEreaderClassesToNoEreader(); // onMount does not get executed on kindle
 	});
