@@ -3,6 +3,7 @@
 	import type { Manga } from './types';
 
 	export let manga: Manga;
+	export let showUpdated = true;
 </script>
 
 <div class="rounded-xl shadow inline-block m-2 bg-white">
@@ -31,10 +32,7 @@
 				{/each}
 			</div>
 			<div class="mt-4 tracking">
-				<span>
-					Updated: {manga.updated}
-				</span>
-				<span class="ml-4">
+				<span class="">
 					{manga.rating}
 					<StarIcon class="inline h-4 w-4 " />
 				</span>
