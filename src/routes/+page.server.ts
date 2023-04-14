@@ -3,6 +3,11 @@ import type { Manga, ScrapedManga } from '$lib/types';
 import { getFavorites } from '$lib/cookies';
 import { MongoClient } from 'mongodb';
 import { MONGODB_URI } from '$env/static/private';
+import type { Config } from '@sveltejs/adapter-vercel';
+
+export const config: Config = {
+	runtime: 'nodejs18.x',
+};
 
 const mongoClient = new MongoClient(MONGODB_URI);
 

@@ -9,7 +9,7 @@ const config = {
 
 	kit: {
 		adapter: vercel({
-			runtime: 'nodejs18.x',
+			runtime: 'edge',
 
 			// an array of dependencies that esbuild should treat
 			// as external when bundling functions
